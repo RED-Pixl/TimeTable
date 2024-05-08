@@ -1,10 +1,17 @@
 import os
 from sql import SQL
+# Use werkzeug to generate and check passwords hashes
 from werkzeug.security import generate_password_hash, check_password_hash
+# Possible if needed anywhere
 from datetime import datetime, timedelta
-from flask import Flask, send_file
+# Use to generate unique ids for users => 16 bytes, uuid.uuid4()
+import uuid
+from flask import Flask, send_file, jsonify
 
 app = Flask(__name__)
+
+# Use db.execute to execute queries
+db = SQL("./school.db")
 
 @app.route("/")
 def index():
