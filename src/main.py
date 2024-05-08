@@ -1,6 +1,7 @@
 import os
 from sql import SQL
-
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime, timedelta
 from flask import Flask, send_file
 
 app = Flask(__name__)
@@ -116,6 +117,8 @@ def create_room():
 @app.route("/rooms/<roomId>", methods=["PUT"])
 def update_room(roomId):
     # Code to update a room
+    # Update room state [free, used]
+
     return
 
 @app.route("/rooms/<roomId>", methods=["DELETE"])
