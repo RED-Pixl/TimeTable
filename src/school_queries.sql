@@ -2,7 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY NOT NULL UNIQUE,
-    username TEXT NOT NULL,
+    username TEXT NOT NULL UNIQUE,
     email TEXT NOT NULL,
     role TEXT NOT NULL,
     password_hash TEXT NOT NULL
@@ -112,3 +112,6 @@ CREATE TABLE IF NOT EXISTS teacher_to_subject (
     FOREIGN KEY (teacher_id) REFERENCES teachers (teacher_id),
     FOREIGN KEY (subject_id) REFERENCES subjects (subject_name)
 );
+
+ALTER TABLE users
+ADD CONSTRAINT username_unqiueness UNIQUE (username);

@@ -6,7 +6,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta
 # Use to generate unique ids for users => 16 bytes, uuid.uuid4()
 import uuid
-from flask import Flask, send_file, jsonify
+from flask import Flask, send_file, jsonify, request
 
 app = Flask(__name__)
 
@@ -22,6 +22,32 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+
+@app.route("/register", methods=["POST"])
+def register():
+    data = request.get_json()
+    # Contains fields: username, role, password, email, name, last_name, birth_date
+    # Check if not already in system
+
+    if not data["username"] or not data["role"] or not data["password"] or not data["email"] or not data["name"] or not data["last_name"] or not data["birth_date"]:
+        return jsonify({'message': "Missing required fields"}), 400 # Should return an error
+    
+    # Check if user already exists
+    if len(db.execute("SELECT * FROM users WHERE username = ?"), data["username"]) != 0:
+        return jsonify({'message': 'Username already exists'}), 422 # Should return user already exists error
+    
+    # Process User information
+    new_user_id = uuid.uuid4()
+    db.execute("INSERT INTO users (id, username, role, email) VALUES (?, ?, ?, ?)", new_user_id, data["username"], data["role"], data["email"])
+    if data["role"] == "student":
+        table = "students"
+    elif data["role"] == "teacher":
+        table = "teachers"
+    else:
+        return jsonify({"message": "Invalid role"}), 400
+    db.execute(f"INSERT INTO { table } (student_id, name, last_name, birth_date) VALUES (?, ?, ?, ?)", new_user_id, data["name"], data["last_name"], data["birth_date"])
+    return jsonify({"message": "Registration successful"}), 200
 
 # Endpoints for students
 
