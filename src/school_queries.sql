@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS subjects (
 
 CREATE TABLE IF NOT EXISTS rooms (
     room_number INTEGER PRIMARY KEY NOT NULL UNIQUE,
-    status TEXT NOT NULL,
+    status TEXT NOT NULL
 );
 
 -- Creating classes table
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS schedules (
     FOREIGN KEY (room) REFERENCES rooms (room_number),
     FOREIGN KEY (class_id) REFERENCES classes (id),
     FOREIGN KEY (teacher_id) REFERENCES teachers (teacher_id),
-    FOREIGN KEY (subject) REFERENCES subjects (subject_name),
+    FOREIGN KEY (subject) REFERENCES subjects (subject_name)
 );
 
 -- Creating teacher_to_class table
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS teacher_to_class (
     class_id TEXT NOT NULL,
     teacher_id TEXT NOT NULL,
     FOREIGN KEY (class_id) REFERENCES classes (id),
-    FOREIGN KEY (teacher_id) REFERENCES teachers (teacher_id),
+    FOREIGN KEY (teacher_id) REFERENCES teachers (teacher_id)
 );
 
 -- Creating constraint_types
