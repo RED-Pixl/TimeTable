@@ -15,19 +15,17 @@ CREATE TABLE IF NOT EXISTS teachers (
     name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     birth_date TEXT NOT NULL,
-    user_id TEXT NOT NULL,
     FOREIGN KEY (teacher_id) REFERENCES users (id)
 );
 
 -- Creating students table
 
 CREATE TABLE IF NOT EXISTS students (
-    students_id TEXT PRIMARY KEY NOT NULL UNIQUE,
+    student_id TEXT PRIMARY KEY NOT NULL UNIQUE,
     name TEXT NOT NULL,
     last_name TEXT NOT NULL,
     birth_date TEXT NOT NULL,
-    user_id TEXT NOT NULL,
-    FOREIGN KEY (students_id) REFERENCES users (id)
+    FOREIGN KEY (student_id) REFERENCES users (id)
 );
 
 -- Creating subjects table
