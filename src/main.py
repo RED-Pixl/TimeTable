@@ -76,12 +76,27 @@ def get_students():
 @app.route("/students/<studentId>", methods=["GET"])
 def get_student(studentId):
     # Code to get a specific student
-    return
+    student = db.execute("SELECT * FROM students WHERE student_id = ?", studentId)
+    if len(student) == 0:
+        return jsonify({"message" : "Student not found"}), 404
+    return jsonify(student[0]), 200
 
 @app.route("/students", methods=["POST"])
 def create_student():
     # Code to create a new student
-    return
+    data = request.get_json()
+    required_fields = ["username", "role", "password", "name", "last_name", "birth_date"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({"message": "Please fill in the required fields",
+                        "error": "Not all required fields were filled"}), 422
+    # Check if the username already exists
+    if len(db.execute("SELECT * FROM users WHERE username = ?", data["username"])) != 0:
+        return jsonify({"message": "Username already exists", "error" : "User could not be added"}), 422
+    
+    student_id = str(uuid.uuid4())
+    db.execute("INSERT INTO users (id, username, role, password_hash)", student_id, data["username"], "student", data["password"])
+    db.execute("INSERT INTO students (student_id, name, last_name, birth_date)", student_id, data["name"], data["last_name"], data["birth_date"])
+    return jsonify({"message" : "Student has been added"}), 200
 
 @app.route("/students/<studentId>", methods=["PUT"])
 def update_student(studentId):
