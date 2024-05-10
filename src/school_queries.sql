@@ -1,9 +1,9 @@
 -- Creating the users table
 
-CREATE TABLE IF NOT EXISTS users (
+CREATE TABLE IF NOT EXISTS users_cp (
     id TEXT PRIMARY KEY NOT NULL UNIQUE,
     username TEXT NOT NULL UNIQUE,
-    email TEXT NOT NULL,
+    email TEXT UNIQUE,
     role TEXT NOT NULL,
     password_hash TEXT NOT NULL
 );

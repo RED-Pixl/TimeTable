@@ -20,48 +20,49 @@ def index():
 def main():
     app.run(port=int(os.environ.get('PORT', 80)))
 
-if __name__ == "__main__":
-    main()
-
-
 @app.route("/register", methods=["POST"])
 def register():
     data = request.get_json()
-    # Contains fields: username, role, password, email, name, last_name, birth_date
-    # Check if not already in system
 
-    if not data["username"] or not data["role"] or not data["password"] or not data["email"] or not data["name"] or not data["last_name"] or not data["birth_date"]:
-        return jsonify({'message': "Missing required fields"}), 400 # Should return an error
+    required_fields = ["username", "role", "password", "email", "name", "last_name", "birth_date"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({'message': "Missing required fields"}), 400
     
-    # Check if user already exists
-    if len(db.execute("SELECT * FROM users WHERE username = ?"), data["username"]) != 0:
-        return jsonify({'message': 'Username already exists'}), 422 # Should return user already exists error
+    if len(db.execute("SELECT * FROM users WHERE email = ?", data["email"])):
+        return jsonify({'message': "Email already registered"}), 422
+    if len(db.execute("SELECT * FROM users WHERE username = ?", data["username"])) != 0:
+        return jsonify({'message': 'Username already exists'}), 422
     
-    # Process User information
-    new_user_id = uuid.uuid4()
-    db.execute("INSERT INTO users (id, username, role, password_hash, email) VALUES (?, ?, ?, ?)", new_user_id, data["username"], data["role"], generate_password_hash(data["password"]),data["email"])
+    new_user_id = str(uuid.uuid4())
+    db.execute("INSERT INTO users (id, username, role, password_hash, email) VALUES (?, ?, ?, ?, ?)", new_user_id, data["username"], data["role"], generate_password_hash(data["password"]), data["email"])
+    
     if data["role"] == "student":
         table = "students"
     elif data["role"] == "teacher":
         table = "teachers"
     else:
         return jsonify({"message": "Invalid role"}), 400
-    db.execute(f"INSERT INTO { table } (student_id, name, last_name, birth_date) VALUES (?, ?, ?, ?)", new_user_id, data["name"], data["last_name"], data["birth_date"])
+    
+    db.execute(f"INSERT INTO { table } (student_id, name, last_name, birth_date) VALUES (?, ?, ?, ?)",
+               new_user_id, data["name"], data["last_name"], data["birth_date"])
+    
     return jsonify({"message": "Registration successful"}), 200
 
-@app.route("/authenticate", methods=["POST"])
+@app.route("/login", methods=["POST"])
 def authenticate():
-    # Sending over username and password
     data = request.get_json()
 
-    if not data["username"] or not data["password"]:
+    required_fields = ["username", "password"]
+    if not all(key in data for key in required_fields):
         return jsonify({"message": "Fill in all the required fields"}), 400
     
-    user_info = db.execute("SELECT * FROM users WHERE username = ?", data["username"],)
-    if len(user_info != 1):
+    user_info = db.execute("SELECT * FROM users WHERE username = ?", data["username"])
+    if len(user_info) != 1:
         return jsonify({"message": "User does not exist"}), 400
-    if check_password_hash(user_info["password_hash"], user_info["password"]):
-        return jsonify({"message": "Login successful"}), 200 # Returns ?? 
+    
+    user_info = user_info[0]
+    if check_password_hash(user_info["password_hash"], data["password"]):
+        return jsonify({"message": "Login successful"}), 200
     else:
         return jsonify({"message": "Wrong username or password"}), 400
     
@@ -174,3 +175,7 @@ def update_room(roomId):
 def delete_room(roomId):
     # Code to delete a room
     return
+
+
+if __name__ == "__main__":
+    main()
