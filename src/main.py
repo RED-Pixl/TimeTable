@@ -39,7 +39,7 @@ def register():
     
     # Process User information
     new_user_id = uuid.uuid4()
-    db.execute("INSERT INTO users (id, username, role, email) VALUES (?, ?, ?, ?)", new_user_id, data["username"], data["role"], data["email"])
+    db.execute("INSERT INTO users (id, username, role, password_hash, email) VALUES (?, ?, ?, ?)", new_user_id, data["username"], data["role"], generate_password_hash(data["password"]),data["email"])
     if data["role"] == "student":
         table = "students"
     elif data["role"] == "teacher":
@@ -49,12 +49,28 @@ def register():
     db.execute(f"INSERT INTO { table } (student_id, name, last_name, birth_date) VALUES (?, ?, ?, ?)", new_user_id, data["name"], data["last_name"], data["birth_date"])
     return jsonify({"message": "Registration successful"}), 200
 
+@app.route("/authenticate", methods=["POST"])
+def authenticate():
+    # Sending over username and password
+    data = request.get_json()
+
+    if not data["username"] or not data["password"]:
+        return jsonify({"message": "Fill in all the required fields"}), 400
+    
+    user_info = db.execute("SELECT * FROM users WHERE username = ?", data["username"],)
+    if len(user_info != 1):
+        return jsonify({"message": "User does not exist"}), 400
+    if check_password_hash(user_info["password_hash"], user_info["password"]):
+        return jsonify({"message": "Login successful"}), 200 # Returns ?? 
+    else:
+        return jsonify({"message": "Wrong username or password"}), 400
+    
 # Endpoints for students
 
 @app.route("/students", methods=["GET"])
 def get_students():
     # Code to get all students
-    return
+    return jsonify(db.execute("SELECT * FROM students")), 200
 
 @app.route("/students/<studentId>", methods=["GET"])
 def get_student(studentId):
