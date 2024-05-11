@@ -6,3 +6,6 @@ autopep8
 flask
 werkzeug
 uuid
+password_strength
+flask-bcrypt
+flask_jwt_extended
