@@ -2,13 +2,38 @@ import os
 from sql import SQL
 # Use werkzeug to generate and check passwords hashes
 from werkzeug.security import generate_password_hash, check_password_hash
+from password_strength import PasswordPolicy
+from flask_bcrypt import Bcrypt
 # Possible if needed anywhere
 from datetime import datetime, timedelta
 # Use to generate unique ids for users => 16 bytes, uuid.uuid4()
 import uuid
 from flask import Flask, send_file, jsonify, request
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+
+# Use get_jwt_identity to retrieve user identity
 
 app = Flask(__name__)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=364)
+# Add BCrypt
+bcrypt = Bcrypt(app)
+
+# JWT
+jwt = JWTManager(app)
+
+policy = PasswordPolicy.from_names(
+    length=8,  # min length: 8
+    uppercase=2,  # need min. 2 uppercase letters
+    numbers=2,  # need min. 2 digits
+    special=2,  # need min. 2 special characters
+)
+
+policy_dict = {
+    "length" : 8,  # min length: 8
+    "uppercase" : 2,  # need min. 2 uppercase letters
+    "numbers" : 2,  # need min. 2 digits
+    "special" : 2,  # need min. 2 special characters
+} 
 
 # Use db.execute to execute queries
 db = SQL("./school.db")
@@ -33,8 +58,15 @@ def register():
     if len(db.execute("SELECT * FROM users WHERE username = ?", data["username"])) != 0:
         return jsonify({'message': 'Username already exists'}), 422
     
+    # Check if password aligns with policy
+    psw_problems = policy.test(data["password"])
+    if not len(psw_problems) == 0:
+        problems = {prob[:-3] : policy_dict[prob[:-3].lower()] for prob in psw_problems}
+        return jsonify({'message': 'Password does not align with policy',
+                        "problems" : problems}), 400
+    
     new_user_id = str(uuid.uuid4())
-    db.execute("INSERT INTO users (id, username, role, password_hash, email) VALUES (?, ?, ?, ?, ?)", new_user_id, data["username"], data["role"], generate_password_hash(data["password"]), data["email"])
+    db.execute("INSERT INTO users (id, username, role, password_hash, email) VALUES (?, ?, ?, ?, ?)", new_user_id, data["username"], data["role"], bcrypt.generate_password_hash(data["password"]).decode('utf-8'), data["email"])
     
     if data["role"] == "student":
         table = "students"
@@ -49,7 +81,7 @@ def register():
     return jsonify({"message": "Registration successful"}), 200
 
 @app.route("/login", methods=["POST"])
-def authenticate():
+def login():
     data = request.get_json()
 
     required_fields = ["username", "password"]
@@ -61,8 +93,9 @@ def authenticate():
         return jsonify({"message": "User does not exist"}), 400
     
     user_info = user_info[0]
-    if check_password_hash(user_info["password_hash"], data["password"]):
-        return jsonify({"message": "Login successful"}), 200
+    if bcrypt.check_password_hash(user_info["password"], data["password"]):        # Create access token
+        access_token = create_access_token(identity=data["username"])
+        return jsonify(access_token=access_token), 200
     else:
         return jsonify({"message": "Wrong username or password"}), 400
     
@@ -94,7 +127,7 @@ def create_student():
         return jsonify({"message": "Username already exists", "error" : "User could not be added"}), 422
     
     student_id = str(uuid.uuid4())
-    db.execute("INSERT INTO users (id, username, role, password_hash)", student_id, data["username"], "student", data["password"])
+    db.execute("INSERT INTO users (id, username, role, password_hash)", student_id, data["username"], "student", bcrypt.generate_password_hash(data["password"]).decode('utf-8'))
     db.execute("INSERT INTO students (student_id, name, last_name, birth_date)", student_id, data["name"], data["last_name"], data["birth_date"])
     return jsonify({"message" : "Student has been added"}), 200
 
