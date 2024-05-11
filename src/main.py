@@ -1,7 +1,5 @@
 import os
 from sql import SQL
-# Use werkzeug to generate and check passwords hashes
-from werkzeug.security import generate_password_hash, check_password_hash
 from password_strength import PasswordPolicy
 from flask_bcrypt import Bcrypt
 # Possible if needed anywhere
