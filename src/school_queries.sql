@@ -115,3 +115,9 @@ CREATE TABLE IF NOT EXISTS teacher_to_subject (
 
 ALTER TABLE users
 ADD CONSTRAINT username_unqiueness UNIQUE (username);
+
+CREATE TABLE IF NOT EXISTS schools (
+    id PRIMARY KEY INTEGER UNIQUE AUTOINCREMENTS NOT NULL,
+    title TEXT NOT NULL,
+    domain TEXT NOT NULL UNIQUE
+);
