@@ -64,13 +64,14 @@ CREATE TABLE IF NOT EXISTS student_to_class (
 
 -- Creating schedules table
 
-CREATE TABLE IF NOT EXISTS schedules (
+CREATE TABLE IF NOT EXISTS schedules(
     id TEXT PRIMARY KEY NOT NULL UNIQUE,
     subject TEXT NOT NULL,
     class_id TEXT NOT NULL,
     teacher_id TEXT NOT NULL,
     week_day TEXT NOT NULL,
     room INTEGER NOT NULL,
+    period INTEGER NOT NULL DEFAULT 0,
     FOREIGN KEY (room) REFERENCES rooms (room_number),
     FOREIGN KEY (class_id) REFERENCES classes (id),
     FOREIGN KEY (teacher_id) REFERENCES teachers (teacher_id),
@@ -116,6 +117,7 @@ CREATE TABLE IF NOT EXISTS teacher_to_subject (
 ALTER TABLE users
 ADD CONSTRAINT username_unqiueness UNIQUE (username);
 
+-- Creating schools table
 CREATE TABLE IF NOT EXISTS schools (
     id PRIMARY KEY INTEGER UNIQUE AUTOINCREMENTS NOT NULL,
     title TEXT NOT NULL,

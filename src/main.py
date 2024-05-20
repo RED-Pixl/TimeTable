@@ -186,10 +186,23 @@ def get_students():
 @app.route("/api/student/<studentId>", methods=["GET"])
 def get_student(studentId):
     # Code to get a specific student
-    student = db.execute("SELECT * FROM students WHERE student_id = ?", studentId)
-    if len(student) == 0:
-        return jsonify({"message" : "Student not found"}), 404
-    return jsonify(student[0]), 200
+    user_info = db.execute("SELECT * FROM users WHERE username = ?", studentId)
+    if not any(user_info):
+        return jsonify({"error": "Student not found"}), 404
+    
+    personal_info = db.execute("SELECT * FROM students WHERE id = ?", user_info["id"])
+    class_id = db.execute("SELECT * FROM student_to_class WHERE student_id = ?", user_info["id"])["class_id"]
+    schedule = db.execute("SELECT * FROM schedule_table WHERE class_id = ?", class_id)
+
+    whole_info = {
+        "personalInformation": personal_info,
+        "schoolInformation": {
+            "class": class_id,
+            "schedule": schedule
+        }
+    }
+
+    return jsonify(whole_info), 200
 
 # /api/register is better 
 @jwt_required()
@@ -206,7 +219,7 @@ def update_student_personal(studentId):
 
 # ================================================================= # ================================================================= #
 """
-Delete helper function
+Delete helper function for student and teacher
 """
 def delete(username):
     # FIND ALL indormation about id
@@ -260,21 +273,13 @@ def get_class(classId):
     # Code to get a specific class
     return jsonify(db.execute("SELECT * FROM classes WHERE id = ?", classId)), 200
 
+#TODO: IMLEMENTATION
 @jwt_required
 @admin_required
 @app.route("/classes", methods=["POST"])
 def create_class():
     # Code to create a new class
     data = request.get_json()
-    try:
-        db.execute("INSERT INTO classes (id, student_count, class_room) VALUES (?, ?, ?)", data["id"], data["student_count"], data["class_room"])
-    except Exception as e:
-        return jsonify({
-            "msg": "Could not create a new class",
-            "classId": data["id"],
-            "error": str(e)
-        }), 400
-    return
 
 @jwt_required
 @admin_required
@@ -326,7 +331,23 @@ def get_teachers():
 @app.route("/teachers/<teacherId>", methods=["GET"])
 def get_teacher(teacherId):
     # Code to get a specific teacher
-    return jsonify(db.execute("SELECT * FROM teachers WHERE teacherId = (SELECT username FROM users WHERE username = ?)", teacherId)), 200
+    user_info = db.execute("SELECT * FROM users WHERE username = ?", teacherId)
+    if not any(user_info):
+        return jsonify({"error": "Teacher not found"}), 404
+    
+    personal_info = db.execute("SELECT * FROM teachers WHERE id = ?", user_info["id"])
+    class_id = db.execute("SELECT * FROM teacher_to_class WHERE student_id = ?", user_info["id"])["class_id"]
+    schedule = db.execute("SELECT * FROM schedule_table WHERE class_id = ?", class_id)
+
+    whole_info = {
+        "personalInformation": personal_info,
+        "schoolInformation": {
+            "class": class_id,
+            "schedule": schedule
+        }
+    }
+
+    return jsonify(whole_info), 200
 
 @jwt_required()
 @admin_required
@@ -485,5 +506,47 @@ def assign_subject_to_teacher():
                     "subject": data["subject"],
                     "username": data["username"]}), 200
 
+# ================================================================= # =================================================================
+#SCHEDULER
+@app.route("/api/scheduler", methods=["POST"])
+def create_schedule():
+    data = request.get_json()
+
+    required_fields = ["subject", "classId", "teacherId", "weekDay", "period", "room"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({
+            "message": "Missing required fields",
+        }), 400
+    
+    new_schedule_id = str(uuid.uuid4())
+    db.execute(db.execute("INSERT INTO schedule_table (id, subject, class_id, teacher_id, week_day, room, period) VALUES (?,?,?,?,?,?,?)", new_schedule_id, data["subject"], data["classId"], data["teacherId"], data["weekDay"], data["room"], data["period"]))
+    return jsonify({
+        "msg": "Added schedule",
+        "schedule": data
+    }), 200
+
+# Get all schedules
+@app.route("/api/scheduler", methods=["GET"])
+def get_schedules():
+    return jsonify(db.execute("SELECT * FROM schedule_table")), 200
+
+# Get all schedule for a given class
+@app.route("/api/scheduler/<classId>", methods=["GET"])
+def get_schedule_class(classId):
+    return jsonify(db.execute("SELECT * FROM schedule_table WHERE class_id = ?", classId)), 200    
+
+@app.route("/api/scheduler/<classId>", methods=["DELETE"])
+def delete_schedule(classId):
+    return
+
+
+# ================================================================= # =================================================================#
+@app.route("/api/constraints/", methods=["POST"])
+def create_constraint():
+    return
+
+@app.route("/api/constraints/", methods=["GET"])
+def get_constraints():
+    return
 if __name__ == "__main__":
     main()
