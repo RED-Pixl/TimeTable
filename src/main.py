@@ -104,7 +104,7 @@ Routes coming up are for the authentication and registration process.
 When editing the functions, please add logging information to the log file "server.log".
 """
 
-@app.route("/register", methods=["POST"])
+@app.route("/api/register", methods=["POST"])
 def register():
     data = request.get_json()
 
@@ -176,14 +176,14 @@ def get_schools():
 # ================================================================= # ================================================================= #
 @jwt_required()
 @admin_required()
-@app.route("/students", methods=["GET"])
+@app.route("/api/student", methods=["GET"])
 def get_students():
     # Code to get all students
     return jsonify(db.execute("SELECT * FROM students")), 200
 
 @jwt_required()
 @teacher_required()
-@app.route("/students/<studentId>", methods=["GET"])
+@app.route("/api/student/<studentId>", methods=["GET"])
 def get_student(studentId):
     # Code to get a specific student
     student = db.execute("SELECT * FROM students WHERE student_id = ?", studentId)
@@ -191,28 +191,16 @@ def get_student(studentId):
         return jsonify({"message" : "Student not found"}), 404
     return jsonify(student[0]), 200
 
+# /api/register is better 
 @jwt_required()
-@teacher_required()
-@app.route("/students", methods=["POST"])
+@admin_required
+@app.route("/api/student", methods=["POST"])
 def create_student():
-    # Code to create a new student
-    data = request.get_json()
-    required_fields = ["username", "role", "password", "name", "last_name", "birth_date"]
-    if not all(data.get(key) for key in required_fields):
-        return jsonify({"message": "Please fill in the required fields",
-                        "error": "Not all required fields were filled"}), 422
-    # Check if the username already exists
-    if len(db.execute("SELECT * FROM users WHERE username = ?", data["username"])) != 0:
-        return jsonify({"message": "Username already exists", "error" : "User could not be added"}), 422
-    
-    student_id = str(uuid.uuid4())
-    db.execute("INSERT INTO users (id, username, role, password_hash) VALUES (?, ?, ?, ?)", student_id, data["username"], "student", bcrypt.generate_password_hash(data["password"]).decode('utf-8'))
-    db.execute("INSERT INTO students (student_id, name, last_name, birth_date) VALUES (?, ?, ?, ?)", student_id, data["name"], data["last_name"], data["birth_date"])
-    return jsonify({"message" : "Student has been added"}), 200
+    return jsonify({"msg": "This path is not in use anymore. Use /api/register instead."}), 404
 
 #TODO: FIGURE OUT WHAT THE UPDATES ARE
-@app.route("/students/<studentId>", methods=["PUT"])
-def update_student(studentId):
+@app.route("/api/student/<studentId>", methods=["PUT"])
+def update_student_personal(studentId):
     # Code to update a student
     return
 
@@ -242,7 +230,7 @@ def delete(username):
 # ================================================================= # =================================================================
 @jwt_required()
 @teacher_required()
-@app.route("/students/<studentId>", methods=["DELETE"])
+@app.route("/student/<studentId>", methods=["DELETE"])
 def delete_student(studentId):
     # Code to delete a student
     if not delete(studentId):
@@ -255,6 +243,7 @@ def delete_student(studentId):
         "studentId": studentId
     }), 200
 
+# ================================================================= # =================================================================
 # Endpoints for classes
 
 @jwt_required
@@ -287,10 +276,24 @@ def create_class():
         }), 400
     return
 
+@jwt_required
+@admin_required
 @app.route("/classes/<classId>", methods=["PUT"])
 def update_class(classId):
     # Code to update a class
-    return
+    if any(db.execute("SELECT * FROM student_to_class WHERE class_id = ?", classId)) or any(db.execute("SELECT * FROM schedule_table WHERE class_id = ?", classId)) or any("SELECT * FROM teacher_to_class WHERE class_id = ?", classId):
+        return jsonify({
+            "msg": "Could not update a class. This classId is still in use. Please remove usage first.",
+            "classId": classId
+        }), 400
+    data = request.get_json()
+    student_count = data["studentCount"]
+    class_room = data["classRoom"]
+    db.execute("UPDATE classes SET student_count = ?, class_room = ? WHERE id = ?", student_count, class_room, classId)
+    return jsonify({
+        "msg": "Successfully updated class!",
+        "classId": classId
+    }), 200
 
 @jwt_required()
 @admin_required
@@ -308,6 +311,7 @@ def delete_class(classId):
         "classId": classId
     }), 200
 
+# ================================================================= # =================================================================
 # Endpoints for teachers
 
 @jwt_required()
@@ -324,22 +328,32 @@ def get_teacher(teacherId):
     # Code to get a specific teacher
     return jsonify(db.execute("SELECT * FROM teachers WHERE teacherId = (SELECT username FROM users WHERE username = ?)", teacherId)), 200
 
-#TODO: Implement
 @jwt_required()
 @admin_required
 @app.route("/teachers", methods=["POST"])
 def create_teacher():
     # Code to create a new teacher
-    data = request.get_json()
-    return
+    return jsonify({
+        "msg": "This route is not supported anymore. Please use the /api/register route instead.",
+    }), 404
 
-#TODO: Implement
 @jwt_required()
 @admin_required
 @app.route("/teachers/<teacherId>", methods=["PUT"])
-def update_teacher(teacherId):
+def update_teacher_personal(teacherId):
     # Code to update a teacher
-    return
+    data = request.get_json()
+
+    required_fields = ["username", "name", "last_name", "birth_date"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({'message': "Missing required fields"}), 400
+    
+    teacher_info = db.execute("SELECT * FROM users WHERE username = ?", teacherId)
+    db.execute("UPDATE teachers SET name = ?, last_name = ?, birth_date = ? WHERE teacher_id = ?", data["name"], data["last_name"], data["birth_date"], teacher_info["id"])
+    return jsonify({
+        "msg": "Updated teacher information",
+        "teacher_id": teacherId,
+    }), 200
 
 @jwt_required()
 @admin_required
@@ -356,35 +370,120 @@ def delete_teacher(teacherId):
         "teacherId": teacherId
     }), 200
 
-# Endpoints for rooms
-
 @app.route("/rooms", methods=["GET"])
 def get_rooms():
     # Code to get all rooms
-    return
+    return jsonify(db.execute("SELECT * FROM rooms")), 200
 
 @app.route("/rooms/<roomId>", methods=["GET"])
 def get_room(roomId):
     # Code to get a specific room
-    return
+    return jsonify(db.execute("SELECT * FROM rooms WHERE room_number = ?", roomId)), 200
 
 @app.route("/rooms", methods=["POST"])
 def create_room():
     # Code to create a new room
-    return
+    data = request.get_json()
+    required_fields = ["room_number"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({'message': "Missing required fields"}), 400
+    
+    if db.execute("DELETE FROM rooms WHERE room_number = ?", data["room_number"]) != 0:
+        return jsonify({
+            "msg": "Room already exists",
+            "room_number": data["room_number"]
+        }), 400
+    db.execute("INSERT INTO rooms (room_number, status) VALUES (?, ?)", data["room_number"], "free")
+    return jsonify({'msg': "Created room",
+                    "room_number" : data["room_number"]
+    }), 200
 
 @app.route("/rooms/<roomId>", methods=["PUT"])
 def update_room(roomId):
     # Code to update a room
     # Update room state [free, used]
-
-    return
+    data = request.get_json()
+    required_fields = ["room_number", "status"]
+    
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({'msg': "Missing required fields"}), 400
+    
+    room_info = db.execute("SELECT * FROM rooms WHERE room_number = ?", roomId)
+    if not any(room_info):
+        return jsonify({'msg': "Room not found", 
+                        "room_number": room_info['room_number']}), 404
+    db.execute("UPDATE roomes SET status = ? WHERE room_number = ?", data['status'], room_info['room_number'])
+    return jsonify({
+        "msg": "Room status changed",
+        "status": data['status'],
+        "room_number": room_info['room_number']
+    }), 200
 
 @app.route("/rooms/<roomId>", methods=["DELETE"])
 def delete_room(roomId):
     # Code to delete a room
-    return
+    if not any(db.execute("SELECT * FROM class WHERE class_room = ?", roomId)) or not any(db.execute("SELECT * FROM schedule_table WHERE room = ?", roomId)):
+        return jsonify({
+            "msg": "Room could not be deleted",
+            "room_id": roomId
+        }), 400
+    
+    if db.execute("DELETE FROM rooms WHERE room_number = ?", roomId) == 0:
+        return jsonify({
+            "msg": "Room not found",
+            "room_id": roomId
+        }), 404
+    return jsonify({
+        "msg": "Successfully deleted room",
+        "room_id": roomId
+    }), 200
 
+# ================================================================= # =================================================================
+# Assignments for students and teachers
+
+@app.route("/api/assignments/class/<username>", methods=["POST"])
+def assign_student_to_class():
+    data = request.get_json()
+
+    required_fields = ["username", "classId"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({'message': "Missing required fields"}), 400
+    role = data["role"]
+    user_id = db.execute("SELECT id FROM users WHER username = ?", data["username"])["id"]
+    if role == "student":
+        table = "student_to_class"
+    elif role == "teacher":
+        table == "teacher_to_class"
+    else:
+        return jsonify({"msg": "Invalid role", "role": role}), 400
+    id_type = f"{role}_id"
+    db.execute("DELETE FROM ? WHERE ? = ?", table, id_type, user_id)
+    db.execute("INSERT INTO ? (?, class_id) VALUES (?, ?)", table, id_type, user_id, data["classId"])
+    return jsonify({
+        "msg": f"Assigned {role} to class",
+        "classId": data["classId"],
+        "username": data["username"]
+    }), 200
+
+@app.route("/api/assignments/subject/", methods=["POST"])
+def assign_subject_to_teacher():
+    data = request.get_json()
+
+    required_fields = ["username", "subject"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({'message': "Missing required fields"}), 400
+    
+    if not any(db.execute("SELECT subject_name FROM subjects WHERE subject_name = ?", data["subject"])):
+        return jsonify({
+            "msg": "Subject does not exist in database",
+            "subject": data["subject"]
+        }), 404
+    
+    user_info = db.execute("SELECT * FROM users WHERE username = ?", data["username"])
+    db.execute("INSERT INTO teacher_to_subject (teacher_id, subject_id) VALUES (?, ?)", user_info["id"], data["subject"])
+    return jsonify({"msg": "Assigned teacher to subject",
+                    "subject": data["subject"],
+                    "username": data["username"]}), 200
 
 if __name__ == "__main__":
     main()
