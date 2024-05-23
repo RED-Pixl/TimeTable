@@ -381,3 +381,1086 @@ INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a
  * Running on http://127.0.0.1:80
 INFO:werkzeug:[33mPress CTRL+C to quit[0m
 INFO:werkzeug:127.0.0.1 - - [21/May/2024 10:48:44] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:12:38] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:12:55] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:13:02] "[31m[1mPOST /api/classes HTTP/1.1[0m" 415 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:14:14] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:14:19] "GET /api/classes HTTP/1.1" 200 -
+ERROR:main:Exception on /api/classes [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: class_id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 302, in get_class
+    class_information = db.execute("SELECT * FROM classes WHERE class_id = ?", query)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: class_id
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:14:40] "[35m[1mGET /api/classes?q=11a HTTP/1.1[0m" 500 -
+ERROR:main:Exception on /api/classes [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: class_id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 302, in get_class
+    class_information = db.execute("SELECT * FROM classes WHERE class_id = ?", query)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: class_id
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:14:50] "[35m[1mGET /api/classes?q=11a HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:16:02] "GET /api/classes HTTP/1.1" 200 -
+ERROR:main:Exception on /api/classes [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: class_id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 302, in get_class
+    class_information = db.execute("SELECT * FROM classes WHERE class_id = ?", query)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: class_id
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:16:08] "[35m[1mGET /api/classes?q=11a HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:16:53] "GET /api/classes?q=11a HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:17:09] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:21:47] "[31m[1mPUT /api/classes HTTP/1.1[0m" 400 -
+ERROR:main:Exception on /api/classes [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such table: schedule_table
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 360, in update_class
+    if any(db.execute("SELECT * FROM student_to_class WHERE class_id = ?", classId)) or any(db.execute("SELECT * FROM schedule_table WHERE class_id = ?", classId)) or any("SELECT * FROM teacher_to_class WHERE class_id = ?", classId):
+                                                                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such table: schedule_table
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:22:39] "[35m[1mPUT /api/classes HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/classes [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 360, in update_class
+    if any(db.execute("SELECT * FROM student_to_class WHERE class_id = ?", classId)) or any(db.execute("SELECT * FROM schedules WHERE class_id = ?", classId)) or any("SELECT * FROM teacher_to_class WHERE class_id = ?", classId):
+                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: any() takes exactly one argument (2 given)
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:23:37] "[35m[1mPUT /api/classes HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:24:18] "PUT /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:24:29] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/classes [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: classId
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 380, in delete_class
+    if any(db.execute("SELECT * FROM student_to_class WHERE classId = ?", query)):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: classId
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:25:20] "[35m[1mDELETE /api/classes?q=11a HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:25:53] "DELETE /api/classes?q=11a HTTP/1.1" 200 -
+ERROR:main:Exception on /api/classes [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.ProgrammingError: Incorrect number of bindings supplied. The current statement uses 3, and there are 1 supplied.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 337, in create_class
+    db.execute("INSERT INTO classes (id, student_count, class_room) VALUES (?, ?, ?)",
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: Incorrect number of bindings supplied. The current statement uses 3, and there are 1 supplied.
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:26:24] "[35m[1mPOST /api/classes HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:27:18] "POST /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:27:27] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:29:42] "[33mGET /register HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:29:56] "[33mPOST /register HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:30:13] "[31m[1mPOST /api/register HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:30:41] "[31m[1mPOST /api/register HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:30:42] "[31m[1mPOST /api/register HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:31:25] "[31m[1mPOST /api/register HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:32:51] "POST /api/register HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:33:21] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:33:49] "[31m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 405 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:34:55] "[31m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 405 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: delete_student() missing 1 required positional argument: 'studentId'
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:35:34] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 274, in delete_student
+    if not id_:
+           ^^^
+NameError: name 'id_' is not defined
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:36:01] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 279, in delete_student
+    if not delete(studentId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 245, in delete
+    if user_info["role"] == "student":
+       ~~~~~~~~~^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:36:22] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: class_id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 279, in delete_student
+    if not delete(studentId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 246, in delete
+    classId = db.execute("SELECT id FROM classes WHERE class_id = (SELECT class_id FROM student_to_class WHERE student_id = ?)", user_info["id"])["id"]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: class_id
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:36:57] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 279, in delete_student
+    if not delete(studentId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 246, in delete
+    classId = db.execute("SELECT id FROM classes WHERE id = (SELECT class_id FROM student_to_class WHERE student_id = ?)", user_info["id"])["id"]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:37:31] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 279, in delete_student
+    if not delete(studentId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 246, in delete
+    classId = db.execute("SELECT id FROM classes WHERE id = (SELECT class_id FROM student_to_class WHERE student_id = ?)", user_info["id"])[0]["id"]
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:38:05] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 303, in delete_student
+    if not delete(studentId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 268, in delete
+    if user_info["role"] == "student":
+       ~~~~~~~~~^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:53:43] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 303, in delete_student
+    if not delete(studentId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 282, in delete
+    role = user_info["role"]
+           ~~~~~~~~~^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:54:33] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 303, in delete_student
+    if not delete(studentId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 282, in delete
+    role = user_info["role"]
+           ~~~~~~~~~^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:54:49] "[35m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:55:23] "DELETE /api/student?s=DummyStudent HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:55:31] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:55:49] "DELETE /api/student?s=DummyStudent HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:55:56] "DELETE /api/student?s=DummyStudent HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:55:58] "DELETE /api/student?s=DummyStudent HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:58:09] "DELETE /api/student?s=DummyStudent HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [21/May/2024 12:58:12] "[31m[1mDELETE /api/student?s=DummyStudent HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:34:24] "DELETE /api/classes?q=11a HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:35:00] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:36:35] "POST /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:37:35] "[33mGET /api/teachers HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:37:41] "GET /api/teacher HTTP/1.1" 200 -
+ERROR:main:Exception on /api/teacher [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 430, in get_teacher
+    personal_info = db.execute("SELECT * FROM teachers WHERE id = ?", user_info["id"])
+                                                                      ~~~~~~~~~^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:38:12] "[35m[1mGET /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: student_id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 431, in get_teacher
+    class_id = db.execute("SELECT * FROM teacher_to_class WHERE student_id = ?", user_info[0]["id"])["class_id"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: student_id
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:39:24] "[35m[1mGET /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 431, in get_teacher
+    class_id = db.execute("SELECT * FROM teacher_to_class WHERE teacher_id = ?", user_info[0]["id"])["class_id"]
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:40:26] "[35m[1mGET /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 431, in get_teacher
+    class_id = db.execute("SELECT * FROM teacher_to_class WHERE teacher_id = ?", user_info[0]["id"])[0]["class_id"]
+               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:40:42] "[35m[1mGET /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:43:14] "GET /api/teacher?q=ReiliSi HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:45:33] "[31m[1mPUT /api/teacher?q=ReiliSi HTTP/1.1[0m" 405 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 471, in update_teacher_personal
+    db.execute("UPDATE teachers SET name = ?, last_name = ?, birth_date = ? WHERE teacher_id = ?", data["name"], data["last_name"], data["birth_date"], teacher_info["id"])
+                                                                                                                                                        ~~~~~~~~~~~~^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:45:59] "[35m[1mPUT /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 475, in update_teacher_personal
+    db.execute("UPDATE teachers SET name = ?, last_name = ?, birth_date = ? WHERE teacher_id = ?", data["name"], data["last_name"], data["birth_date"], teacher_info["id"])
+                                                                                                                                                        ~~~~~~~~~~~~^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:47:06] "[35m[1mPUT /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:47:24] "PUT /api/teacher?q=ReiliSi HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:48:20] "PUT /api/teacher?q=ReiliSi HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:51:16] "PUT /api/teacher?q=ReiliSi HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: delete_teacher() missing 1 required positional argument: 'teacherId'
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:52:17] "[35m[1mDELETE /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: delete_teacher() missing 1 required positional argument: 'teacherId'
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:54:44] "[35m[1mDELETE /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: delete_teacher() missing 1 required positional argument: 'teacherId'
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:56:25] "[35m[1mDELETE /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: delete_teacher() missing 1 required positional argument: 'teacherId'
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 08:59:16] "[35m[1mDELETE /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 493, in delete_teacher
+    if not delete(teacherId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 274, in delete
+    if any(db.execute("SELECT * FROM teacher_to_class WHERE teacher_id = ?)", role_info["teacher_id"])) or any(db.execute("SELECT * FROM subjects WHERE head_teacher_id = ?", user_info[0]["id"])) or any(db.execute("SELECT * FROM schedules WHERE teacher_id = ?", user_info[0]["id"])):
+                                                                              ~~~~~~~~~^^^^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:00:03] "[35m[1mDELETE /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: near ")": syntax error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 493, in delete_teacher
+    if not delete(teacherId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 274, in delete
+    if any(db.execute("SELECT * FROM teacher_to_class WHERE teacher_id = ?)", role_info[0]["teacher_id"])) or any(db.execute("SELECT * FROM subjects WHERE head_teacher_id = ?", user_info[0]["id"])) or any(db.execute("SELECT * FROM schedules WHERE teacher_id = ?", user_info[0]["id"])):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: near ")": syntax error
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:00:23] "[35m[1mDELETE /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/teacher [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: student_id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 493, in delete_teacher
+    if not delete(teacherId):
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 287, in delete
+    db.execute(f"DELETE FROM {role_to_class_table} WHERE student_id = ?", user_info[0]["id"])
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: student_id
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:00:44] "[35m[1mDELETE /api/teacher?q=ReiliSi HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:01:56] "DELETE /api/teacher?q=ReiliSi HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:02:06] "GET /api/teacher HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:02:29] "[33mGET /api/rooms HTTP/1.1[0m" 404 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:03:20] "GET /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:04:23] "GET /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:04:28] "GET /api/rooms?q=ReiliSi HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:05:42] "[31m[1mPOST /api/rooms HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/rooms [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 527, in create_room
+    if db.execute("DELETE FROM rooms WHERE room_number = ?", data["room_number"]) != 0:
+                                                             ~~~~^^^^^^^^^^^^^^^
+KeyError: 'room_number'
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:08:10] "[35m[1mPOST /api/rooms HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:08:52] "POST /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/rooms [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: update_room() missing 1 required positional argument: 'roomId'
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:10:51] "[35m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:11:05] "[31m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/rooms [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 555, in update_room
+    db.execute("UPDATE roomes SET status = ? WHERE room_number = ?", data['status'], room_info['room_number'])
+                                                                                     ~~~~~~~~~^^^^^^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:11:28] "[35m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/rooms [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such table: roomes
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 558, in update_room
+    db.execute("UPDATE roomes SET status = ? WHERE room_number = ?", data['status'], room_info[0]['room_number'])
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such table: roomes
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:12:45] "[35m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:13:12] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:13:22] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:14:24] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:14:29] "[31m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:14:34] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:15:55] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:16:00] "[31m[1mDELETE /api/rooms?q=181 HTTP/1.1[0m" 405 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/rooms [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such table: class
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 577, in delete_room
+    if not any(db.execute("SELECT * FROM class WHERE class_room = ?", roomId)) or not any(db.execute("SELECT * FROM schedules WHERE room = ?", roomId)):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such table: class
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:16:22] "[35m[1mDELETE /api/rooms?q=181 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:16:41] "[31m[1mDELETE /api/rooms?q=181 HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:16:49] "[31m[1mDELETE /api/rooms?q=182 HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:17:14] "[33mDELETE /api/rooms?q=182 HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:17:19] "[31m[1mDELETE /api/rooms?q=181 HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:51:59] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:52:06] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:52:24] "[33mGET /api/users HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:52:28] "[33mGET /api/user HTTP/1.1[0m" 404 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:53:32] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [22/May/2024 09:54:02] "GET /api/student?s=Patalian HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 229, in get_student
+    students = db.execute("""
+               ^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: id
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:01:55] "[35m[1mGET /api/student?s=Andrei HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 242, in get_student
+    schedule = db.execute("SELECT * FROM schedules WHERE class_id = ?", class_id[0])
+                                                                        ~~~~~~~~^^^
+TypeError: 'NoneType' object is not subscriptable
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:02:24] "[35m[1mGET /api/student?s=Andrei HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 250, in get_student
+    "class": class_id[0],
+             ~~~~~~~~^^^
+TypeError: 'NoneType' object is not subscriptable
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:03:21] "[35m[1mGET /api/student?s=Andrei HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:27] "GET /api/student?s=Andrei HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:42] "GET /api/student?s=patalinghug HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:46] "GET /api/student?s=andrei HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:53] "GET /api/student?s=andrei%20patalinghug HTTP/1.1" 200 -

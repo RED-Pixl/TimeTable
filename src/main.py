@@ -67,22 +67,36 @@ def admin_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         current_user = get_jwt_identity()
-        # Check if user has admin role
-        if db.execute("SELECT role FROM users WHERE username = ?", current_user)[0]["role"] != ADMIN_ROLE:
+        
+        result = db.execute("SELECT role FROM users WHERE username = ?", (current_user,))
+        
+        # Check if the result is empty
+        if not result:
+            return jsonify({"message": "User not found"}), 404
+        
+        # Check if the user has admin role
+        if result[0]["role"] != ADMIN_ROLE:
             return jsonify({"message": "Admin access required"}), 403
+        
         return fn(*args, **kwargs)
+    
     return wrapper
-
 # Custom decorator for teacher-only routes
 def teacher_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         current_user = get_jwt_identity()
         # Check if user has teacher role
-        user_role = db.execute("SELECT role FROM users WHERE username = ?", current_user)[0]["role"]
-        if user_role == ADMIN_ROLE or user_role == TEACHER_ROLE:
-            return fn(*args, **kwargs)
-        return jsonify({"message": "Teacher access required"}), 403
+        result = db.execute("SELECT role FROM users WHERE username = ?", current_user)
+        # Check if the result is empty
+        if not result:
+            return jsonify({"message": "User not found"}), 404
+        
+        # Check if the user has teacher or admin role
+        if result[0]["role"] != ADMIN_ROLE or result[0]["role"] != TEACHER_ROLE:
+            return jsonify({"message": "Teacher access required"}), 403
+        
+        return fn(*args, **kwargs)
     return wrapper
 
 # Custom decorator for student-only routes
@@ -91,8 +105,14 @@ def student_required(fn):
     def wrapper(*args, **kwargs):
         current_user = get_jwt_identity()
         # Check if user has student role
-        user_role = db.execute("SELECT role FROM users WHERE username = ?", current_user)[0]["role"]
-        if user_role == ADMIN_ROLE or user_role == TEACHER_ROLE or user_role == STUDENT_ROLE:
+        result = db.execute("SELECT role FROM users WHERE username = ?", current_user)
+
+        # Check if the result is empty
+        if not result:
+            return jsonify({"message": "User not found"}), 404
+        
+        # Check for student role
+        if result[0]["role"] == ADMIN_ROLE or result[0]["role"] == TEACHER_ROLE or result[0]["role"] == STUDENT_ROLE:
             return fn(*args, **kwargs)
         return jsonify({"message": "Student access required"}), 403
     return wrapper
@@ -191,36 +211,49 @@ def check_assignment_class(id_, role):
         return False
     return True
 
+def capitalize_and_clean(s: str):
+    words = s.split()
+    capitalized_words = ' '.join(word.lower().capitalize() for word in words)
+    return capitalized_words
+
 @app.route("/api/student", methods=["GET"])
 def get_student():
-    id_ = request.args.get("s", "")
-    if not id_:
+    search_term = request.args.get("s", "")
+    if not search_term:
         # Code to get all students
         return jsonify(db.execute("SELECT * FROM students")), 200
     else: 
-        # Code to get a specific student
-        user_info = db.execute("SELECT * FROM users WHERE username = ?", id_)[0]
-        if not any(user_info):
-            return jsonify({"error": "Student not found"}), 404
-        
-        personal_info = db.execute("SELECT * FROM students WHERE student_id = ?", user_info["id"])
-        # Error if student not assigned yet
-        if not check_assignment_class(user_info["id"], STUDENT_ROLE):
-            class_id = None
-            schedule = None
-        else:
-            class_id = db.execute("SELECT * FROM student_to_class WHERE student_id = ?", user_info["id"])["class_id"]
-            schedule = db.execute("SELECT * FROM schedule_table WHERE class_id = ?", class_id)
+        search_term = capitalize_and_clean(search_term)
+        # Code to get a specific students from name
+        pattern = f"%{search_term}%"
+        students = db.execute("""
+        SELECT student_id, name, last_name 
+        FROM students 
+        WHERE name LIKE ? 
+        OR last_name LIKE ? 
+        OR (name || ' ' || last_name) LIKE ?
+        """, pattern, pattern, pattern)
 
-        whole_info = {
-            "personalInformation": personal_info,
-            "schoolInformation": {
-                "class": class_id,
-                "schedule": schedule
-            }
-        }
+        results = []
+        for student in students:
+            class_id = db.execute("SELECT class_id FROM student_to_class WHERE student_id = ?", student["student_id"])
+            if not class_id:
+                class_id = None
+                schedule = None
+            else:
+                class_id = class_id[0]
+                schedule = db.execute("SELECT * FROM schedules WHERE class_id = ?", class_id)
+                if not schedule:
+                    schedule = None
+            results.append({
+                "personalInformation": student,
+                "schoolInformation": {
+                    "class": class_id,
+                    "schedule": schedule
+                }
+            })
 
-        return jsonify(whole_info), 200
+        return jsonify(results), 200
 
 # /api/register is better 
 
@@ -239,44 +272,59 @@ def update_student_personal(studentId):
 """
 Delete helper function for student and teacher
 """
-def delete(username):
-    # FIND ALL indormation about id
-    user_info = db.execute("SELECT * FROM users WHERE username = ?", username)
-    if user_info["role"] == "student":
-        classId = db.execute("SELECT id FROM classes WHERE class_id = (SELECT class_id FROM student_to_class WHERE student_id = ?)", user_info["id"])["id"]
-        db.execute("UPDATE class SET student_count = student_count - ? WHERE id = ?", 1, classId)
-    elif user_info["role"] == "teacher":
-        role_info = db.execute("SELECT * FROM teachers WHERE teacher_id = ?", user_info["id"])
-        if any(db.execute("SELECT * FROM teacher_to_class WHERE teacher_id = ?)", role_info["teacher_id"])) or any(db.execute("SELECT * FROM subjects WHERE head_teacher_id = ?", user_info["id"])) or any(db.execute("SELECT * FROM schedule_table WHERE teacher_id = ?", user_info["id"])):
-            return False
-        db.execute("DELETE FROM teacher_to_subject WHERE teacher_id = ?", user_info["id"])
-    else: 
+def delete_student(id: str):
+    # Code to get a specific students from name
+    student = db.execute("SELECT * FROM students WHERE student_id = ?", id)
+    if not student:
         return False
-        
-    # DELETING FUNCTIONS DANGER!!!!!!!
-    # Construct the table names safely
-    role = user_info["role"]
-    role_to_class_table = f"{role}_to_class"
-    role_table = f"{role}s"
+    student = student[0]
 
-    # Execute the queries with parameterized inputs
-    db.execute(f"DELETE FROM {role_to_class_table} WHERE student_id = ?", user_info["id"])
-    db.execute(f"DELETE FROM {role_table} WHERE {role}_id = ?", user_info["id"])
+    # Update the classes
+    class_id = db.execute("SELECT * FROM student_to_class WHERE student_id = ?", student["student_id"])
+    if class_id:
+        class_id = class_id[0]
+        db.execute("UPDATE classes SET student_count = student_count - 1 WHERE id = ?", class_id)
+
+
+    # DELETE FUNCTIONS DANGER!!!!!
+    db.execute("DELETE FROM student WHERE student_id = ?", student["student_id"])
+    db.execute("DELETE FROM student_to_class WHERE student_id = ?", student["student_id"])
+    db.execute("DELETE FROM users WHERE id = ?", student["student_id"])
     return True
 
+def delete_teacher(id: str):
+    teacher = db.execute("DELETE FROM teachers WHERE teacher_id = ?", id)
+    if not teacher:
+        return False
+    teacher = teacher[0]
+    has_assosiation = (
+        db.execute("SELECT * FROM teacher_to_class WHERE teacher_id = ?", teacher["teacher_id"]) or
+        db.execute("SELECT * FROM subjects WHERE head_teacher_id = ?", teacher["teacher_id"]) or
+        db.execute("SELECT * FROM schedules WHERE teacher_id = ?", teacher["teacher_id"])
+    )
+
+    if has_assosiation:
+        return False
+    
+    # DELETE FUNCTIONS DANGER!!!!
+    db.execute("DELETE FROM teacher_to_subject WHERE teacher_id = ?", teacher["teacher_id"])
+    db.execute("DELETE FROM teacher_to_class WHERE teacher_id = ?", teacher["teacher"])
+    db.execute("DELETE FROM taechers WHERE teacher_id = ?", teacher["teacher"])
+    db.execute("DELETE FROM users WHERE id = ?", teacher["teacher_id"])
+    return True
 # ================================================================= # =================================================================
 
 
-@app.route("/student", methods=["DELETE"])
-def delete_student(studentId):
+@app.route("/api/student", methods=["DELETE"])
+def delete_student():
     # Code to delete a student
-    id_ = request.args.get("s", "")
-    if not id_:
+    studentId = request.args.get("s", "")
+    if not studentId:
         return jsonify({
             "message": "Student not found, Query has to be specified"
         }), 404
     
-    if not delete(studentId):
+    if not delete_student(studentId):
         return jsonify({
             "message": "Something went wrong, could not delete student",
             "studentId": studentId,
@@ -299,7 +347,7 @@ def get_class():
         # Code to get all classes
         return jsonify(db.execute("SELECT * FROM classes")), 200
     else: 
-        class_information = db.execute("SELECT * FROM classes WHERE class_id = ?", query)
+        class_information = db.execute("SELECT * FROM classes WHERE id = ?", query)
         student_list = db.execute("SELECT name, last_name FROM students WHERE student_id = (SELECT student_id FROM student_to_class WHERE class_id = ?)", query)
 
         information = {
@@ -311,8 +359,8 @@ def get_class():
 def check_uniqueness_class(id_, class_room):
     id_result = db.execute("SELECT * FROM classes WHERE id = ?", id_)
     class_result = db.execute("SELECT * FROM classes WHERE class_room = ?", class_room)
-
-    if not id_result and not class_result:
+    rooms_result = db.execute("SELECT * FROM classes WHERE room_number = ?", class_room)
+    if not id_result or not class_result or not rooms_result:
         return True
     else:
         return False
@@ -322,7 +370,7 @@ def create_class():
     # Code to create a new class
     data = request.get_json()
 
-    required_fields = ["classId", "studentCount", "classRoom"]
+    required_fields = ["classId", "classRoom"]
     if not all(data.get(key) for key in required_fields):
         return jsonify({'message': "Missing required fields"}), 400
     
@@ -335,37 +383,38 @@ def create_class():
     
     # Insert the class into the database
     db.execute("INSERT INTO classes (id, student_count, class_room) VALUES (?, ?, ?)",
-               (data["classId"], data["studentCount"], data["classRoom"]))
+               data["classId"], 0, data["classRoom"])
     
     return jsonify({
         "message": "Successfully created a new class.",
         "classId": data["classId"],
         "classRoom": data["classRoom"],
-        "studentCount": data["studentCount"]
+        "studentCount": 0
     }), 200
 
 @app.route("/api/classes", methods=["PUT"])
 def update_class():
-    classId = request.args.get("q", "")
-    if not classId:
-        return jsonify({
-            "message": "Class Id has to be speicified. Please try again."
-        }), 400
-    else: 
-        # Code to update a class
-        if any(db.execute("SELECT * FROM student_to_class WHERE class_id = ?", classId)) or any(db.execute("SELECT * FROM schedule_table WHERE class_id = ?", classId)) or any("SELECT * FROM teacher_to_class WHERE class_id = ?", classId):
-            return jsonify({
-                "message": "Could not update a class. This classId is still in use. Please remove usage first.",
-                "classId": classId
-            }), 400
-        data = request.get_json()
-        student_count = data["studentCount"]
-        class_room = data["classRoom"]
-        db.execute("UPDATE classes SET student_count = ?, class_room = ? WHERE id = ?", student_count, class_room, classId)
-        return jsonify({
-            "message": "Successfully updated class!",
-            "classId": classId
-        }), 200
+    # Code to update a class
+    # You can only update a class' classroom. Student Count gets updated automatically every time a student is added
+    data = request.get_json()
+    required_fields = ["classId", "classRoom"]
+
+    if not all(data.get(key) for key in required_fields):
+        return jsonify({"message": "Missing required fields"}), 400
+    
+    classId = data["classId"]
+    class_room = data["classRoom"]
+
+    has_association = (
+        db.execute("SELECT * FROM classes WHERE class_room = ?", class_room)
+        )
+    if has_association:
+        return jsonify({"message": "Could not update classroom. Please remove associations first."}), 400
+    
+    return jsonify({
+        "message": "Successfully updated class!",
+        "classId": classId
+    }), 200
 
 
 
@@ -376,9 +425,9 @@ def delete_class():
     if not query:
         return jsonify({"message": "Class not found, Query has to be given"}), 404
     else: 
-        if any(db.execute("SELECT * FROM student_to_class WHERE classId = ?", query)):
+        if any(db.execute("SELECT * FROM student_to_class WHERE class_id = ?", query)):
             return jsonify({
-                "message": "Could not delete a class",
+                "message": "Could not delete a class. Class still in use. Please try again",
                 "classId": query
             }), 400
         db.execute("DELETE FROM classes WHERE id  = ?", query)
@@ -389,35 +438,52 @@ def delete_class():
 
 # ================================================================= # =================================================================
 # Endpoints for teachers
-@app.route("/teachers", methods=["GET"])
+@app.route("/api/teacher", methods=["GET"])
 def get_teacher():
     teacherId = request.args.get("q", "")
     if not teacherId:    
         # Code to get all teachers
         return jsonify(db.execute("SELECT * FROM teachers")), 200
     else:
-        # Code to get a specific teacher
-        user_info = db.execute("SELECT * FROM users WHERE username = ?", teacherId)
-        if not any(user_info):
-            return jsonify({"error": "Teacher not found"}), 404
-        
-        personal_info = db.execute("SELECT * FROM teachers WHERE id = ?", user_info["id"])
-        class_id = db.execute("SELECT * FROM teacher_to_class WHERE student_id = ?", user_info["id"])["class_id"]
-        schedule = db.execute("SELECT * FROM schedule_table WHERE class_id = ?", class_id)
+        # Code to get a specific teacher        
+        search_term = capitalize_and_clean(search_term)
+        pattern = f"%{search_term}%"
+        teachers = db.execute("""
+        SELECT teacher_id, name, last_name 
+        FROM teachers 
+        WHERE name LIKE ? 
+        OR last_name LIKE ? 
+        OR (name || ' ' || last_name) LIKE ?
+        """, pattern, pattern, pattern)
 
-        whole_info = {
-            "personalInformation": personal_info,
-            "schoolInformation": {
-                "class": class_id,
-                "schedule": schedule
-            }
-        }
+        results = []
+        for teacher in teachers:
+            schedule = db.execute("SELECT * FROM schedules WHERE teacher_id = ?", teacher["teacher_id"])
+            if not schedule:
+                schedule = None
+            head_teacher_of = db.execute("SELECT * FROM teacher_to_class WHERE teacher_id = ?", teacher["teacher_id"])
+            if not head_teacher_of:
+                head_teacher_of = None
+            else:
+                head_teacher_of = head_teacher_of[0]["id"]
+            subjects = db.execute("SELECT * FROM teacher_to_subject WHERE teacher_id = ?", teacher["teacher_id"])
+            if not subjects:
+                subjects = None
+            
+            results.append({
+                "personalInformation": teacher,
+                "schoolInformation": {
+                    "subjects": subjects,
+                    "headTeacherOf": head_teacher_of,
+                    "schedule": schedule
+                }
+            })
 
-        return jsonify(whole_info), 200
+        return jsonify(results), 200
 
 
 
-@app.route("/teachers", methods=["POST"])
+@app.route("/api/teacher", methods=["POST"])
 def create_teacher():
     # Code to create a new teacher
     return jsonify({
@@ -426,8 +492,9 @@ def create_teacher():
 
 
 
-@app.route("/teachers/<teacherId>", methods=["PUT"])
-def update_teacher_personal(teacherId):
+@app.route("/api/teacher", methods=["PUT"])
+def update_teacher_personal():
+    teacherId = request.args.get("q", "")
     # Code to update a teacher
     data = request.get_json()
 
@@ -436,19 +503,26 @@ def update_teacher_personal(teacherId):
         return jsonify({'message': "Missing required fields"}), 400
     
     teacher_info = db.execute("SELECT * FROM users WHERE username = ?", teacherId)
-    db.execute("UPDATE teachers SET name = ?, last_name = ?, birth_date = ? WHERE teacher_id = ?", data["name"], data["last_name"], data["birth_date"], teacher_info["id"])
+    if not teacher_info:
+        return jsonify({
+            "message": "Could not find teacher"
+        }), 404
+    db.execute("UPDATE teachers SET name = ?, last_name = ?, birth_date = ? WHERE teacher_id = ?", data["name"], data["last_name"], data["birth_date"], teacher_info[0]["id"])
     return jsonify({
         "message": "Updated teacher information",
         "teacher_id": teacherId,
+        "personal_info": db.execute("SELECT * FROM teachers WHERE teacher_id = ?", teacher_info[0]["id"])
     }), 200
 
-# Implement more error handling
-
-
-@app.route("/teachers/<teacherId>", methods=["DELETE"])
-def delete_teacher(teacherId):
+@app.route("/api/teacher", methods=["DELETE"])
+def delete_teacher():
     # Code to delete a teacher
-    if not delete(teacherId):
+    teacherId = request.args.get("q", "")
+    if not teacherId:
+        return jsonify({
+            "message": "Teacher has to be specified"
+        }), 400
+    if not delete_teacher(teacherId):
         return jsonify({
             "message": "Could not delete teacher",
             "teacherId": teacherId
@@ -458,59 +532,79 @@ def delete_teacher(teacherId):
         "teacherId": teacherId
     }), 200
 
-@app.route("/rooms", methods=["GET"])
+@app.route("/api/rooms", methods=["GET"])
 def get_rooms():
     # Code to get all rooms
     return jsonify(db.execute("SELECT * FROM rooms")), 200
 
-@app.route("/rooms/<roomId>", methods=["GET"])
+@app.route("/api/rooms", methods=["GET"])
 def get_room(roomId):
+    roomId = request.args.get("q", "")
+    if not roomId:
+        # Code to get all rooms
+        return jsonify(db.execute("SELECT * FROM rooms")), 200
     # Code to get a specific room
     return jsonify(db.execute("SELECT * FROM rooms WHERE room_number = ?", roomId)), 200
 
-@app.route("/rooms", methods=["POST"])
+@app.route("/api/rooms", methods=["POST"])
 def create_room():
     # Code to create a new room
     data = request.get_json()
-    required_fields = ["room_number"]
+    required_fields = ["roomNumber"]
     if not all(data.get(key) for key in required_fields):
         return jsonify({'message': "Missing required fields"}), 400
     
-    if db.execute("DELETE FROM rooms WHERE room_number = ?", data["room_number"]) != 0:
+    if db.execute("DELETE FROM rooms WHERE room_number = ?", data["roomNumber"]) != 0:
         return jsonify({
             "message": "Room already exists",
-            "room_number": data["room_number"]
+            "room_number": data["roomNumber"]
         }), 400
-    db.execute("INSERT INTO rooms (room_number, status) VALUES (?, ?)", data["room_number"], "free")
+    db.execute("INSERT INTO rooms (room_number, status) VALUES (?, ?)", data["roomNumber"], "free")
     return jsonify({'message': "Created room",
-                    "room_number" : data["room_number"]
+                    "room_number" : data["roomNumber"],
+                    "status": "free"
     }), 200
 
-@app.route("/rooms/<roomId>", methods=["PUT"])
-def update_room(roomId):
+@app.route("/api/rooms", methods=["PUT"])
+def update_room():
     # Code to update a room
     # Update room state [free, used]
+    roomId = request.args.get("q", "")
+    if not roomId:
+        return jsonify({"message": "RoomId has to be specified", "roomId": roomId})
     data = request.get_json()
-    required_fields = ["room_number", "status"]
+    required_fields = ["roomNumber", "status"]
     
     if not all(data.get(key) for key in required_fields):
         return jsonify({'message': "Missing required fields"}), 400
     
+    status = ["free", "used"]
+    if data["status"] not in status:
+        return jsonify({'message': "Invalid status"}), 400
     room_info = db.execute("SELECT * FROM rooms WHERE room_number = ?", roomId)
+    if not room_info:
+        return jsonify({'message': "Room not found", "roomNumber": roomId}), 404
+    
     if not any(room_info):
         return jsonify({'message': "Room not found", 
-                        "room_number": room_info['room_number']}), 404
-    db.execute("UPDATE roomes SET status = ? WHERE room_number = ?", data['status'], room_info['room_number'])
+                        "room_number": roomId}), 404
+    db.execute("UPDATE rooms SET status = ? WHERE room_number = ?", data['status'], room_info[0]['room_number'])
     return jsonify({
         "message": "Room status changed",
         "status": data['status'],
-        "room_number": room_info['room_number']
+        "room_number": room_info[0]['room_number']
     }), 200
 
-@app.route("/rooms/<roomId>", methods=["DELETE"])
-def delete_room(roomId):
+@app.route("/api/rooms", methods=["DELETE"])
+def delete_room():
     # Code to delete a room
-    if not any(db.execute("SELECT * FROM class WHERE class_room = ?", roomId)) or not any(db.execute("SELECT * FROM schedule_table WHERE room = ?", roomId)):
+    roomId = request.args.get("q", "")
+    if not roomId:
+        return jsonify({
+            "message": "Room must be specified",
+            "roomId": roomId
+        }), 400
+    if any(db.execute("SELECT * FROM classes WHERE class_room = ?", roomId)) or any(db.execute("SELECT * FROM schedules WHERE room = ?", roomId)):
         return jsonify({
             "message": "Room could not be deleted",
             "room_id": roomId
@@ -529,21 +623,23 @@ def delete_room(roomId):
 # ================================================================= # =================================================================
 # Assignments for students and teachers
 
-@app.route("/api/assignments/class/<username>", methods=["POST"])
-def assign_student_to_class():
+@app.route("/api/assignments/class", methods=["POST"])
+def assign_user_to_class():
     data = request.get_json()
 
     required_fields = ["username", "classId"]
     if not all(data.get(key) for key in required_fields):
         return jsonify({'message': "Missing required fields"}), 400
+    
     role = data["role"]
-    user_id = db.execute("SELECT id FROM users WHER username = ?", data["username"])["id"]
+    user_id = db.execute("SELECT id FROM users WHERE username = ?", data["username"])["id"]
     if role == "student":
         table = "student_to_class"
     elif role == "teacher":
         table == "teacher_to_class"
     else:
         return jsonify({"message": "Invalid role", "role": role}), 400
+    
     id_type = f"{role}_id"
     db.execute("DELETE FROM ? WHERE ? = ?", table, id_type, user_id)
     db.execute("INSERT INTO ? (?, class_id) VALUES (?, ?)", table, id_type, user_id, data["classId"])
@@ -586,7 +682,7 @@ def create_schedule():
         }), 400
     
     new_schedule_id = str(uuid.uuid4())
-    db.execute(db.execute("INSERT INTO schedule_table (id, subject, class_id, teacher_id, week_day, room, period) VALUES (?,?,?,?,?,?,?)", new_schedule_id, data["subject"], data["classId"], data["teacherId"], data["weekDay"], data["room"], data["period"]))
+    db.execute(db.execute("INSERT INTO schedules (id, subject, class_id, teacher_id, week_day, room, period) VALUES (?,?,?,?,?,?,?)", new_schedule_id, data["subject"], data["classId"], data["teacherId"], data["weekDay"], data["room"], data["period"]))
     return jsonify({
         "message": "Added schedule",
         "schedule": data
@@ -595,22 +691,22 @@ def create_schedule():
 # Get all schedules
 @app.route("/api/scheduler", methods=["GET"])
 def get_schedules():
-    return jsonify(db.execute("SELECT * FROM schedule_table")), 200
+    return jsonify(db.execute("SELECT * FROM schedules")), 200
 
 # Get all schedule for a given class
 @app.route("/api/scheduler/<classId>", methods=["GET"])
 def get_schedule_class(classId):
-    return jsonify(db.execute("SELECT * FROM schedule_table WHERE class_id = ?", classId)), 200    
+    return jsonify(db.execute("SELECT * FROM schedules WHERE class_id = ?", classId)), 200    
 
 @app.route("/api/scheduler/<classId>", methods=["DELETE"])
 def delete_schedule(classId):
     # Check if class is valid in schedule table
-    if not any(db.execute("SELECT * FROM schedule_table WHERE class_id = ?", classId)):
+    if not any(db.execute("SELECT * FROM schedules WHERE class_id = ?", classId)):
         return jsonify({
             "message": "Class not found",
         }), 404
     
-    num_deleted = db.execute("DELETE FROM schedule_table WHERE class_id = ?", classId)
+    num_deleted = db.execute("DELETE FROM schedules WHERE class_id = ?", classId)
 
     return jsonify({
         "message": "Successfully deleted schedule",
