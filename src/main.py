@@ -2,12 +2,10 @@ import os
 from sql import SQL
 from password_strength import PasswordPolicy
 from flask_bcrypt import Bcrypt
-# Possible if needed anywhere
 from datetime import datetime, timedelta
-# Use to generate unique ids for users => 16 bytes, uuid.uuid4()
 import uuid
 from flask import Flask, send_file, jsonify, request
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, create_refresh_token, get_jwt_identity
 from functools import wraps
 import logging
 
@@ -15,8 +13,22 @@ import logging
 # Use get_jwt_identity to retrieve user identity
 
 app = Flask(__name__)
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=364)
-app.config["SECRET_KEY"] = "THIS IS A SECRET_KEY"
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY", "THIS_IS_A_SECRET_KEY")
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=15)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
+app.config["JWT_COOKIE_SECURE"] = True
+app.config["JWT_COOKIE_HTTPONLY"] = True
+app.config["JWT_COOKIE_SAMESITE"] = "Strict"
+app.config["JWT_CSRF_CHECK_FORM"] = True
+app.config["JWT_CSRF_IN_COOKIES"] = True
+app.config["JWT_ACCESS_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN"
+app.config["JWT_REFRESH_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-REFRESH"
+app.config["JWT_BLACKLIST_ENABLED"] = True
+app.config["JWT_BLACKLIST_TOKEN_CHECKS"] = ["access", "refresh"]
+app.config["JWT_HEADER_TYPE"] = "Bearer"
+app.config["JWT_ERROR_MESSAGE_KEY"] = "message"
+
 
 # Add BCrypt
 bcrypt = Bcrypt(app)
@@ -68,35 +80,42 @@ def admin_required(fn):
     def wrapper(*args, **kwargs):
         current_user = get_jwt_identity()
         
+        if not current_user:
+            return jsonify({"message": "User not authenticated"}), 401
+
         result = db.execute("SELECT role FROM users WHERE username = ?", (current_user,))
         
-        # Check if the result is empty
         if not result:
             return jsonify({"message": "User not found"}), 404
         
-        # Check if the user has admin role
         if result[0]["role"] != ADMIN_ROLE:
             return jsonify({"message": "Admin access required"}), 403
         
         return fn(*args, **kwargs)
     
     return wrapper
+
 # Custom decorator for teacher-only routes
 def teacher_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         current_user = get_jwt_identity()
-        # Check if user has teacher role
-        result = db.execute("SELECT role FROM users WHERE username = ?", current_user)
-        # Check if the result is empty
+
+        if not current_user:
+            return jsonify({"message": "User not authenticated"}), 401
+
+        result = db.execute("SELECT role FROM users WHERE username = ?", (current_user,))
+        
         if not result:
             return jsonify({"message": "User not found"}), 404
         
-        # Check if the user has teacher or admin role
-        if result[0]["role"] != ADMIN_ROLE or result[0]["role"] != TEACHER_ROLE:
+        user_role = result[0]["role"]
+
+        if user_role == ADMIN_ROLE or user_role == TEACHER_ROLE:
+            return fn(*args, **kwargs)
+        else:
             return jsonify({"message": "Teacher access required"}), 403
-        
-        return fn(*args, **kwargs)
+    
     return wrapper
 
 # Custom decorator for student-only routes
@@ -104,25 +123,34 @@ def student_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         current_user = get_jwt_identity()
-        # Check if user has student role
-        result = db.execute("SELECT role FROM users WHERE username = ?", current_user)
+        
+        if not current_user:
+            return jsonify({"message": "User not authenticated"}), 401
 
-        # Check if the result is empty
+        result = db.execute("SELECT role FROM users WHERE username = ?", (current_user,))
+        
         if not result:
             return jsonify({"message": "User not found"}), 404
         
-        # Check for student role
-        if result[0]["role"] == ADMIN_ROLE or result[0]["role"] == TEACHER_ROLE or result[0]["role"] == STUDENT_ROLE:
-            return fn(*args, **kwargs)
-        return jsonify({"message": "Student access required"}), 403
-    return wrapper
+        user_role = result[0]["role"]
 
+        if user_role == ADMIN_ROLE or user_role == TEACHER_ROLE or user_role == STUDENT_ROLE:
+            return fn(*args, **kwargs)
+        else:
+            return jsonify({"message": "Student access required"}), 403
+    
+    return wrapper
 # ================================================================= # ================================================================= #
 
 """
 Routes coming up are for the authentication and registration process.
 When editing the functions, please add logging information to the log file "server.log".
+    if not len(psw_problems) == 0:
+        problems = {problem["name"] : problem["msg"] for problem in psw_problems}
+        return jsonify({'message': 'Password does not align with policy',
+                        "problems" : problems}), 400
 """
+
 
 @app.route("/api/register", methods=["POST"])
 def register():
@@ -147,20 +175,30 @@ def register():
                         "problems" : problems}), 400
     
     # Check Role
-    if data["role"] == "student":
-        table = "students"
-        id_type = "student_id"
-    elif data["role"] == "teacher":
-        table = "teachers"
-        id_type = "teacher_id"
-    else:
+    if data["role"] not in {"student", "teacher"}:
         return jsonify({"message": "Invalid role"}), 400
     
-    new_user_id = str(uuid.uuid4())
-    db.execute("INSERT INTO users (id, username, role, password_hash, email) VALUES (?, ?, ?, ?, ?)", new_user_id, data["username"], data["role"], bcrypt.generate_password_hash(data["password"]).decode('utf-8'), None)
-    db.execute(f"INSERT INTO { table } ({id_type} , name, last_name, birth_date) VALUES (?, ?, ?, ?)", new_user_id, data["name"], data["last_name"], data["birth_date"])
-    
-    return jsonify({"message": "Registration successful"}), 200
+    try:
+        new_user_id = str(uuid.uuid4())
+        hashed_password = bcrypt.generate_password_hash(data["password"]).decode('utf-8')
+        
+        # Insert user into the database
+        db.execute("INSERT INTO users (id, username, role, password_hash, email) VALUES (?, ?, ?, ?, ?)",
+                   new_user_id, data["username"], data["role"], hashed_password, None)
+        
+        # Insert user details based on role
+        if data["role"] == "student":
+            db.execute("INSERT INTO students (student_id, name, last_name, birth_date) VALUES (?, ?, ?, ?)",
+                       new_user_id, data["name"], data["last_name"], data["birth_date"])
+        else:  # Assuming teacher
+            db.execute("INSERT INTO teachers (teacher_id, name, last_name, birth_date) VALUES (?, ?, ?, ?)",
+                       new_user_id, data["name"], data["last_name"], data["birth_date"])
+        
+        logging.info(f"New user registered: {data['username']}")
+        return jsonify({"message": "Registration successful"}), 201
+    except Exception as e:
+        logging.error(f"Registration failed for user {data['username']}: {str(e)}")
+        return jsonify({"message": "Registration failed. Please try again later."}), 500
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -177,9 +215,24 @@ def login():
     user_info = user_info[0]
     if bcrypt.check_password_hash(user_info["password_hash"], data["password"]):       
         access_token = create_access_token(identity=data["username"])
-        return jsonify(access_token=access_token, message="Login Successful"), 200
+        refresh_token = create_refresh_token(identity=data["username"])
+        return jsonify(access_token=access_token, refresh_token=refresh_token, message="Login Successful"), 200
     else:
         return jsonify({"message": "Wrong username or password"}), 400
+    
+@app.route("/refresh", methods=["POST"])
+def refresh():
+    data = request.get_json()
+
+    refresh_token = data.get("refresh_token")
+    if not refresh_token:
+        return jsonify({"message": "Refresh token is missing"}), 401
+
+    try:
+        new_access_token = create_access_token(identity=get_jwt_identity())
+        return jsonify(access_token=new_access_token), 200
+    except Exception as e:
+        return jsonify({"message": "Failed to refresh access token", "error": str(e)}), 500
 
 # ================================================================= # ================================================================= #
 """
@@ -300,7 +353,7 @@ def update_student_personal():
 """
 Delete helper function for student and teacher
 """
-def delete_student(id: str):
+def delete_student_helper(id: str):
     # Code to get a specific students from name
     student = db.execute("SELECT * FROM students WHERE student_id = ?", id)
     if not student:
@@ -311,16 +364,16 @@ def delete_student(id: str):
     class_id = db.execute("SELECT * FROM student_to_class WHERE student_id = ?", student["student_id"])
     if class_id:
         class_id = class_id[0]
-        db.execute("UPDATE classes SET student_count = student_count - 1 WHERE id = ?", class_id)
+        db.execute("UPDATE classes SET student_count = student_count - 1 WHERE id = ?", class_id["class_id"])
 
 
     # DELETE FUNCTIONS DANGER!!!!!
-    db.execute("DELETE FROM student WHERE student_id = ?", student["student_id"])
+    db.execute("DELETE FROM students WHERE student_id = ?", student["student_id"])
     db.execute("DELETE FROM student_to_class WHERE student_id = ?", student["student_id"])
     db.execute("DELETE FROM users WHERE id = ?", student["student_id"])
     return True
 
-def delete_teacher(id: str):
+def delete_teacher_helper(id: str):
     teacher = db.execute("DELETE FROM teachers WHERE teacher_id = ?", id)
     if not teacher:
         return False
@@ -346,13 +399,14 @@ def delete_teacher(id: str):
 @app.route("/api/student", methods=["DELETE"])
 def delete_student():
     # Code to delete a student
-    studentId = request.args.get("s", "")
+    data = request.get_json()
+    studentId = data["studentId"]
     if not studentId:
         return jsonify({
             "message": "Student not found, Query has to be specified"
         }), 404
     
-    if not delete_student(studentId):
+    if not delete_student_helper(studentId):
         return jsonify({
             "message": "Something went wrong, could not delete student",
             "studentId": studentId,
@@ -562,7 +616,7 @@ def delete_teacher():
         return jsonify({
             "message": "Teacher has to be specified"
         }), 400
-    if not delete_teacher(teacherId):
+    if not delete_teacher_helper(teacherId):
         return jsonify({
             "message": "Could not delete teacher",
             "teacherId": teacherId
@@ -600,9 +654,10 @@ def create_room():
             "room_number": data["roomNumber"]
         }), 400
     db.execute("INSERT INTO rooms (room_number, status) VALUES (?, ?)", data["roomNumber"], "free")
-    return jsonify({'message': "Created room",
-                    "room_number" : data["roomNumber"],
-                    "status": "free"
+    return jsonify({
+        'message': "Created room",
+        "room_number" : data["roomNumber"],
+        "status": "free"
     }), 200
 
 @app.route("/api/rooms", methods=["PUT"])

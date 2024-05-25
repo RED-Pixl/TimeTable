@@ -1910,3 +1910,168 @@ INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a
  * Running on http://127.0.0.1:80
 INFO:werkzeug:[33mPress CTRL+C to quit[0m
 INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:24:45] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:48:10] "[31m[1mPOST /api/register HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:50:18] "[33mDELETE /api/student HTTP/1.1[0m" 404 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:50:59] "GET /api/student?q HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:51:12] "[33mDELETE /api/student?q=c61132ec-5e24-438e-99d6-c7c715259297 HTTP/1.1[0m" 404 -
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 402, in delete_student
+    if not delete_student(studentId):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: delete_student() takes 0 positional arguments but 1 was given
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:51:45] "[35m[1mDELETE /api/student?s=c61132ec-5e24-438e-99d6-c7c715259297 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.ProgrammingError: Error binding parameter 1: type 'dict' is not supported
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 402, in delete_student
+    if not delete_student_helper(studentId):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 361, in delete_student_helper
+    db.execute("UPDATE classes SET student_count = student_count - 1 WHERE id = ?", class_id)
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: Error binding parameter 1: type 'dict' is not supported
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:53:07] "[35m[1mDELETE /api/student?s=c61132ec-5e24-438e-99d6-c7c715259297 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 402, in delete_student
+    if not delete_student_helper(studentId):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 361, in delete_student_helper
+    db.execute("UPDATE classes SET student_count = student_count - 1 WHERE id = ?", class_id[0]["class_id"])
+                                                                                    ~~~~~~~~^^^
+KeyError: 0
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:53:52] "[35m[1mDELETE /api/student?s=c61132ec-5e24-438e-99d6-c7c715259297 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/student [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such table: student
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 402, in delete_student
+    if not delete_student_helper(studentId):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 365, in delete_student_helper
+    db.execute("DELETE FROM student WHERE student_id = ?", student["student_id"])
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such table: student
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:54:13] "[35m[1mDELETE /api/student?s=c61132ec-5e24-438e-99d6-c7c715259297 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:54:33] "DELETE /api/student?s=c61132ec-5e24-438e-99d6-c7c715259297 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:55:16] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:55:46] "[31m[1mPOST /api/register HTTP/1.1[0m" 400 -
+INFO:root:New user registered: PataliAn
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:56:48] "[35m[1mPOST /api/register HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:57:08] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:57:56] "[31m[1mGET /login HTTP/1.1[0m" 405 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:58:00] "[31m[1mPOST /login HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:58:05] "POST /login HTTP/1.1" 200 -
+ERROR:main:Exception on /api/register [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 169, in register
+    problems = {problem["name"] : problem["msg"] for problem in psw_problems}
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 169, in <dictcomp>
+    problems = {problem["name"] : problem["msg"] for problem in psw_problems}
+                ~~~~~~~^^^^^^^^
+TypeError: 'Uppercase' object is not subscriptable
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 11:58:59] "[35m[1mPOST /api/register HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 12:00:19] "[31m[1mPOST /api/register HTTP/1.1[0m" 400 -
+INFO:root:New user registered: DoeJo
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 12:00:46] "[35m[1mPOST /api/register HTTP/1.1[0m" 201 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 12:00:50] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [25/May/2024 12:01:06] "POST /login HTTP/1.1" 200 -
