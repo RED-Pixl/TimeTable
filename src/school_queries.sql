@@ -123,3 +123,14 @@ CREATE TABLE IF NOT EXISTS schools (
     title TEXT NOT NULL,
     domain TEXT NOT NULL UNIQUE
 );
+
+-- Creating constraints table
+CREATE TABLE IF NOT EXISTS constraints (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    date TEXT NOT NULL,
+    type TEXT NOT NULL,
+    description TEXT NOT NULL,
+    teacher_id TEXT NOT NULL,
+    periods BLOB NOT NULL,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (teacher_id)
+);

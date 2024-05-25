@@ -1464,3 +1464,449 @@ INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:27] "GET /api/student?s=Andrei HT
 INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:42] "GET /api/student?s=patalinghug HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:46] "GET /api/student?s=andrei HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [23/May/2024 07:04:53] "GET /api/student?s=andrei%20patalinghug HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:19:33] "GET /api/student?s=andrei%20patalinghug HTTP/1.1" 200 -
+ERROR:main:Exception on /api/teacher [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 449, in get_teacher
+    search_term = capitalize_and_clean(search_term)
+                                       ^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'search_term' where it is not associated with a value
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:19:39] "[35m[1mGET /api/teacher?q=andrei%20patalinghug HTTP/1.1[0m" 500 -
+ERROR:main:Exception on /api/teacher [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 449, in get_teacher
+    search_term = capitalize_and_clean(teacherId)
+                                       ^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'search_term' where it is not associated with a value
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:20:22] "[35m[1mGET /api/teacher?q=andrei%20patalinghug HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:20:30] "GET /api/teacher?q=andrei%20patalinghug HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:20:38] "GET /api/teacher HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:22:27] "[31m[1mGET /api/register HTTP/1.1[0m" 405 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:22:41] "POST /api/register HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:23:29] "GET /api/teacher HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:23:36] "GET /api/teacher?q=andrei%20patalinghug HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:23:40] "GET /api/teacher?q=Simon HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:23:45] "GET /api/teacher?q=simon HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:23:49] "GET /api/teacher?q=Reilich HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:23:53] "GET /api/teacher?q=reilich HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:24:01] "GET /api/teacher?q=Simon%20Reilich HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:24:34] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:24:48] "DELETE /api/classes?q=11a HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:24:53] "[33mDELETE /api/classes HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [23/May/2024 14:25:00] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:40:23] "GET /api/classes?q=11a HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:40:32] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:45:36] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:46:31] "GET /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:49:59] "PUT /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:50:05] "PUT /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:51:32] "[33mPUT /api/rooms?q=182 HTTP/1.1[0m" 404 -
+ERROR:main:Exception on /api/rooms [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 608, in update_room
+    if room_info["status"] == "free":
+       ~~~~~~~~~^^^^^^^^^^
+TypeError: list indices must be integers or slices, not str
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:51:36] "[35m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/rooms [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 618, in update_room
+    "room_number": room_info[0]['room_number']
+                   ~~~~~~~~~^^^
+KeyError: 0
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:13] "[35m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/rooms [PUT]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 611, in update_room
+    db.execute("UPDATE rooms SET status = ? WHERE room_number = ?", status, room_info[0]['room_number'])
+                                                                            ~~~~~~~~~^^^
+KeyError: 0
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:29] "[35m[1mPUT /api/rooms?q=181 HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:44] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:47] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:48] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:48] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:51] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:52] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:52] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:54] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:55] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:56] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:57] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:52:59] "PUT /api/rooms?q=181 HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:55:05] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:55:33] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:55:39] "GET /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:56:08] "GET /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 06:59:08] "GET /api/student HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:00:03] "[33mPOST /api/assignments/classes HTTP/1.1[0m" 404 -
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 657, in assign_user_to_class
+    role = data["role"]
+           ~~~~^^^^^^^^
+KeyError: 'role'
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:00:18] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 657, in assign_user_to_class
+    user_id = db.execute("SELECT id FROM users WHERE id = ?", data["username"])
+                                                              ~~~~^^^^^^^^^^^^
+KeyError: 'username'
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:02:22] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 662, in assign_user_to_class
+    role = user_id["role"]
+           ~~~~~~~^^^^^^^^
+KeyError: 'role'
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:02:46] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 658, in assign_user_to_class
+    if not user_id:
+           ^^^^^^^
+UnboundLocalError: cannot access local variable 'user_id' where it is not associated with a value
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:03:11] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 658, in assign_user_to_class
+    if not user_info:
+           ^^^^^^^
+UnboundLocalError: cannot access local variable 'user_id' where it is not associated with a value
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:03:42] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: near "?": syntax error
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 671, in assign_user_to_class
+    db.execute("DELETE FROM ? WHERE ? = ?", table, id_type, user_info)
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: near "?": syntax error
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:04:46] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:07:16] "[33mPOST /api/assignments/class HTTP/1.1[0m" 404 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:09:24] "POST /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:09:29] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.ProgrammingError: Error binding parameter 1: type 'dict' is not supported
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 678, in assign_user_to_class
+    db.execute(f"DELETE FROM {table} WHERE {id_type} = ?", user_info)
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: Error binding parameter 1: type 'dict' is not supported
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:09:46] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 683, in assign_user_to_class
+    "username": data["username"]
+                ~~~~^^^^^^^^^^^^
+KeyError: 'username'
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:10:45] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:11:11] "POST /api/assignments/class HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:11:24] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:14:44] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:14:47] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:14:49] "GET /api/classes HTTP/1.1" 200 -
+ERROR:main:Exception on /api/assignments/class [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 678, in assign_user_to_class
+    user_before = db.execute(f"SELECT * FROM {table} WHERE {id_type} = ?", data["user_id"])
+                                                                           ~~~~^^^^^^^^^^^
+KeyError: 'user_id'
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:14:59] "[35m[1mPOST /api/assignments/class HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:15:20] "POST /api/assignments/class HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:15:26] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:15:28] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:15:29] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:16:06] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:16:07] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:16:08] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:17:44] "POST /api/assignments/class HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:17:49] "POST /api/assignments/class HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:19:01] "POST /api/assignments/class HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:19:08] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:19:19] "POST /api/assignments/class HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/classes [GET]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 883, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 902, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1174, in make_response
+    raise TypeError(
+TypeError: The view function for 'get_class' did not return a valid response. The function either returned None or ended without a return statement.
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:24:19] "[35m[1mGET /api/classes HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [24/May/2024 07:24:45] "GET /api/classes HTTP/1.1" 200 -
