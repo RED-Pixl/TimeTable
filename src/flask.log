@@ -2075,3 +2075,149 @@ INFO:root:New user registered: DoeJo
 INFO:werkzeug:127.0.0.1 - - [25/May/2024 12:00:46] "[35m[1mPOST /api/register HTTP/1.1[0m" 201 -
 INFO:werkzeug:127.0.0.1 - - [25/May/2024 12:00:50] "GET /api/student HTTP/1.1" 200 -
 INFO:werkzeug:127.0.0.1 - - [25/May/2024 12:01:06] "POST /login HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:14:45] "[31m[1mDELETE /api/scheduler HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:15:00] "[33mDELETE /api/scheduler HTTP/1.1[0m" 404 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:15:11] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:16:07] "GET /api/classes HTTP/1.1" 200 -
+ERROR:main:Exception on /api/scheduler [DELETE]
+Traceback (most recent call last):
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 29, in execute
+    self.cur.execute(sql, args)
+sqlite3.OperationalError: no such column: class_id
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 878, in delete_schedule
+    if not any(db.execute("SELECT * FROM classes WHERE class_id = ?", class_id)):
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\sql.py", line 45, in execute
+    raise RuntimeError(f"Error executing query: {e}")
+RuntimeError: Error executing query: no such column: class_id
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:16:15] "[35m[1mDELETE /api/scheduler HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:16:35] "DELETE /api/scheduler HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:16:53] "DELETE /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:16:59] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:18:57] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:19:15] "GET /api/rooms HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:19:37] "GET /api/teacher HTTP/1.1" 200 -
+ERROR:main:Exception on /api/classes [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 480, in create_class
+    if not check_uniqueness_class(data["classId"], data["classRoom"], head):
+                                                                      ^^^^
+NameError: name 'head' is not defined
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:20:05] "[35m[1mPOST /api/classes HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:20:27] "POST /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:20:34] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/classes [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 480, in create_class
+    if not check_uniqueness_class(data["classId"], data["classRoom"]):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: check_uniqueness_class() missing 1 required positional argument: 'head_teacher_id'
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:24:23] "[35m[1mPOST /api/classes HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+ERROR:main:Exception on /api/classes [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 480, in create_class
+    if not check_uniqueness_class(data["classId"], data["classRoom"]):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: check_uniqueness_class() missing 1 required positional argument: 'head_teacher_id'
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:24:38] "[35m[1mPOST /api/classes HTTP/1.1[0m" 500 -
+ERROR:main:Exception on /api/classes [POST]
+Traceback (most recent call last):
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\potch\GitHubRepositories\TimeTable\src\main.py", line 480, in create_class
+    if not check_uniqueness_class(data["classId"], data["classRoom"]):
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: check_uniqueness_class() missing 1 required positional argument: 'head_teacher_id'
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:24:53] "[35m[1mPOST /api/classes HTTP/1.1[0m" 500 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:25:00] "[31m[1mPOST /api/classes HTTP/1.1[0m" 400 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:80
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:29:10] "GET /api/classes HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [26/May/2024 07:29:16] "DELETE /api/classes HTTP/1.1" 200 -
