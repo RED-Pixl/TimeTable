@@ -11,21 +11,14 @@ import logging
 
 
 # Use get_jwt_identity to retrieve user identity
-
-app = Flask(__name__)
-app.config["JWT_SECRET_KEY"] = "HERE GOES THE SECRET KEY < WILL BE AN ENV VARIABLE"
 ACCESS_EXPIRES = timedelta(hours=1)
 REFRESH_EXPIRES = timedelta(days=30)
+
+app = Flask(__name__)
+app.config["JWT_SECRET_KEY"] = "HERE GOES THE SECRET KEY < WILL BE AN ENV VARIABLE!!!!"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = REFRESH_EXPIRES
-app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
-app.config["JWT_COOKIE_SECURE"] = True
-app.config["JWT_COOKIE_HTTPONLY"] = True
-app.config["JWT_COOKIE_SAMESITE"] = "Strict"
-app.config["JWT_CSRF_CHECK_FORM"] = True
-app.config["JWT_CSRF_IN_COOKIES"] = True
-app.config["JWT_ACCESS_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN"
-app.config["JWT_REFRESH_CSRF_HEADER_NAME"] = "X-CSRF-TOKEN-REFRESH"
+app.config["JWT_TOKEN_LOCATION"] = ["headers"]
 app.config["JWT_BLACKLIST_ENABLED"] = True
 app.config["JWT_BLACKLIST_TOKEN_CHECKS"] = ["access", "refresh"]
 app.config["JWT_HEADER_TYPE"] = "Bearer"
@@ -59,7 +52,7 @@ ADMIN_ROLE = "admin"
 TEACHER_ROLE = "teacher"
 STUDENT_ROLE = "student"
 
-# Use db.execute to execute queries
+# Use db.execute to execute queries. MAKE THESE ENV VARIABLES
 db = SQL("./school.db")
 block_list = SQL("../token_block_list/block_list.db")
 
@@ -68,7 +61,7 @@ def index():
     return send_file('index.html')
 
 def main():
-    app.run(port=int(os.environ.get('PORT', 80)))
+    app.run(port=80, )
 
 """
 These Decorators have a hierarchical structure. 
@@ -86,7 +79,7 @@ def admin_required(fn):
         if not current_user:
             return jsonify({"message": "User not authenticated"}), 401
 
-        result = db.execute("SELECT role FROM users WHERE username = ?", (current_user,))
+        result = db.execute("SELECT role FROM users WHERE username = ?", current_user)
         
         if not result:
             return jsonify({"message": "User not found"}), 404
@@ -107,7 +100,7 @@ def teacher_required(fn):
         if not current_user:
             return jsonify({"message": "User not authenticated"}), 401
 
-        result = db.execute("SELECT role FROM users WHERE username = ?", (current_user,))
+        result = db.execute("SELECT role FROM users WHERE username = ?", current_user)
         
         if not result:
             return jsonify({"message": "User not found"}), 404
@@ -130,7 +123,7 @@ def student_required(fn):
         if not current_user:
             return jsonify({"message": "User not authenticated"}), 401
 
-        result = db.execute("SELECT role FROM users WHERE username = ?", (current_user,))
+        result = db.execute("SELECT role FROM users WHERE username = ?", current_user)
         
         if not result:
             return jsonify({"message": "User not found"}), 404
@@ -152,6 +145,8 @@ When editing the functions, please add logging information to the log file "serv
 
 
 @app.route("/api/register", methods=["POST"])
+@jwt_required()
+@admin_required
 def register():
     data = request.get_json()
 
@@ -254,9 +249,8 @@ def refresh():
 
 # ================================================================= # ================================================================= #
 """
-Function for getting all known schools and information
+Function for getting all known schools and information, open for everyone
 """
-
 @app.route("/api/schools", methods=["GET"])
 def get_schools():
     query = request.args.get("q", "")
@@ -287,7 +281,10 @@ def capitalize_and_clean(s: str):
     capitalized_words = ' '.join(word.lower().capitalize() for word in words)
     return capitalized_words
 
+
 @app.route("/api/student", methods=["GET"])
+@jwt_required()
+@student_required
 def get_student():
     search_term = request.args.get("s", "")
     if not search_term:
@@ -343,12 +340,15 @@ def get_student():
 
 # /api/register is better 
 
-
 @app.route("/api/student", methods=["POST"])
+@jwt_required()
 def create_student():
     return jsonify({"message": "This path is not in use anymore. Use /api/register instead."}), 404
 
+
 @app.route("/api/student", methods=["PUT"])
+@jwt_required()
+@admin_required
 def update_student_personal():
     # Code to update a student
     data = request.get_json()
@@ -414,6 +414,8 @@ def delete_teacher_helper(id: str):
 
 
 @app.route("/api/student", methods=["DELETE"])
+@jwt_required()
+@admin_required
 def delete_student():
     # Code to delete a student
     data = request.get_json()
@@ -444,6 +446,8 @@ def delete_student():
 # Endpoints for classes
 
 @app.route("/api/classes", methods=["GET"])
+@jwt_required()
+@teacher_required
 def get_class():
     # Code to get a specific class
     # class information and student list (name, last name)
@@ -490,7 +494,10 @@ def check_uniqueness_class(id_, class_room):
 # ================================================================= # ================================================================== #
 
 # TODO: Assignment logic teacher to class, because headTeacherId has to be given
+
 @app.route("/api/classes", methods=["POST"])
+@jwt_required()
+@admin_required
 def create_class():
     # Code to create a new class
     data = request.get_json()
@@ -517,7 +524,10 @@ def create_class():
         "studentCount": 0
     }), 200
 
+
 @app.route("/api/classes", methods=["PUT"])
+@jwt_required()
+@admin_required
 def update_class():
     # Code to update a class
     # You can only update a class' classroom. Student Count gets updated automatically every time a student is added
@@ -544,6 +554,8 @@ def update_class():
 
 
 @app.route("/api/classes", methods=["DELETE"])
+@jwt_required()
+@admin_required
 def delete_class():
     data = request.get_json()
     
@@ -570,7 +582,10 @@ def delete_class():
 
 # ================================================================= # =================================================================
 # Endpoints for teachers
+
 @app.route("/api/teacher", methods=["GET"])
+@jwt_required()
+@student_required
 def get_teacher():
     teacherId = request.args.get("q", "")
     if not teacherId:    
@@ -616,13 +631,17 @@ def get_teacher():
 
 
 @app.route("/api/teacher", methods=["POST"])
+@jwt_required()
 def create_teacher():
     # Code to create a new teacher
     return jsonify({
         "message": "This route is not supported anymore. Please use the /api/register route instead.",
     }), 404
 
+
 @app.route("/api/teacher", methods=["PUT"])
+@jwt_required()
+@admin_required
 def update_teacher_personal():
     # Code to update a teacher
     data = request.get_json()
@@ -640,7 +659,10 @@ def update_teacher_personal():
         "personalInformation": db.execute("SELECT * FROM teachers WHERE teacher_id = ?", data["teacherId"])[0]
     }) 
 
+
 @app.route("/api/teacher", methods=["DELETE"])
+@jwt_required()
+@admin_required
 def delete_teacher():
     data = request.get_json()
     
@@ -666,11 +688,8 @@ def delete_teacher():
     }), 200
 
 @app.route("/api/rooms", methods=["GET"])
-def get_rooms():
-    # Code to get all rooms
-    return jsonify(db.execute("SELECT * FROM rooms")), 200
-
-@app.route("/api/rooms", methods=["GET"])
+@jwt_required()
+@student_required
 def get_room(roomId):
     roomId = request.args.get("q", "")
     if not roomId:
@@ -679,7 +698,10 @@ def get_room(roomId):
     # Code to get a specific room
     return jsonify(db.execute("SELECT * FROM rooms WHERE room_number = ?", roomId)), 200
 
+
 @app.route("/api/rooms", methods=["POST"])
+@jwt_required()
+@admin_required
 def create_room():
     # Code to create a new room
     data = request.get_json()
@@ -699,7 +721,10 @@ def create_room():
         "status": "free"
     }), 200
 
+
 @app.route("/api/rooms", methods=["PUT"])
+@jwt_required()
+@teacher_required
 def update_room():
     # Code to update a room
     # Update room state [free, used]
@@ -728,7 +753,10 @@ def update_room():
         "room_number": room_info['room_number']
     }), 200
 
+
 @app.route("/api/rooms", methods=["DELETE"])
+@jwt_required()
+@admin_required
 def delete_room():
     data = request.get_json()
     
@@ -764,7 +792,10 @@ def delete_room():
 # ================================================================= # =================================================================
 # Assignments for students and teachers
 
+
 @app.route("/api/assignments/class", methods=["POST"])
+@jwt_required()
+@admin_required
 def assign_user_to_class():
     # Assigning user or headTeacher to a class
     data = request.get_json()
@@ -810,7 +841,10 @@ def assign_user_to_class():
         "userId": data["userId"]
     }), 200
 
+
 @app.route("/api/assignments/subject/", methods=["POST"])
+@jwt_required()
+@admin_required
 def assign_subject_to_teacher():
     data = request.get_json()
 
@@ -835,7 +869,10 @@ def assign_subject_to_teacher():
 
 # ================================================================= # =================================================================
 #SCHEDULER
+
 @app.route("/api/scheduler", methods=["POST"])
+@jwt_required()
+@admin_required
 def create_schedule():
     data = request.get_json()
 
@@ -879,7 +916,10 @@ def create_schedule():
     }), 200
 
 # Get all schedule for a given class
+
 @app.route("/api/scheduler", methods=["GET"])
+@jwt_required()
+@student_required
 def get_schedule_class(classId):
     query = request.args.get("q", "")
     if not query:
@@ -887,6 +927,8 @@ def get_schedule_class(classId):
     return jsonify(db.execute("SELECT * FROM schedules WHERE class_id = ?", classId)), 200    
 
 @app.route("/api/scheduler", methods=["DELETE"])
+@jwt_required()
+@admin_required
 def delete_schedule():
     data = request.get_json()
     
@@ -940,6 +982,8 @@ def get_constraints():
 # Subject paths
 
 @app.route("/api/subjects", methods=["GET"])
+@jwt_required()
+@student_required
 def get_subjects():
     query = request.args.get("q", "")
     if query:
@@ -948,6 +992,8 @@ def get_subjects():
         return jsonify(db.execute("SELECT * FROM subjects"))
 
 @app.route("/api/subjects", methods=["POST"])
+@jwt_required()
+@admin_required
 def add_subject():
     data = request.get_json()
 
@@ -972,7 +1018,10 @@ def add_subject():
     db.execute("INSERT INTO subjects (subject_name, color, head_teacher_id) VALUES (?,?,?)", data["subjectName"], data["color"], data["headTeacherId"])
     return jsonify({"message": "Successfully added subject", "data": data}), 200
 
+
 @app.route("/api/subjects", methods=["DELETE"])
+@jwt_required()
+@admin_required
 def delete_subject():
     data = request.get_json()
     
@@ -995,11 +1044,20 @@ def delete_subject():
     
     return jsonify({"message": "Successfully deleted subject"})
 
+
 @app.route("/api/profile", methods=["PUT"])
+@jwt_required()
+@student_required
 def update_profile():
+    # Adding a new password, old password, email
+    data = request.get_json()
     
-    return
+    required_fields = ["oldPassword", "newPassword", "email"]
+    if not all(data.get(key) for key in required_fields):
+        return jsonify(message="Missing required fieds"), 400
+    identity = get_jwt_identity()
+    print(identity)
+    return jsonify(identity=identity)
+
 if __name__ == "__main__":
     main()
-
-
