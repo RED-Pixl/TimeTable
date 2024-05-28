@@ -2,10 +2,10 @@ import os
 from sql import SQL
 from password_strength import PasswordPolicy
 from flask_bcrypt import Bcrypt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import uuid
 from flask import Flask, send_file, jsonify, request
-from flask_jwt_extended import JWTManager, jwt_required, create_access_token, create_refresh_token, get_jwt_identity
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, create_refresh_token, get_jwt_identity, get_jwt, get_jti
 from functools import wraps
 import logging
 
@@ -14,8 +14,10 @@ import logging
 
 app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "HERE GOES THE SECRET KEY < WILL BE AN ENV VARIABLE"
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=15)
-app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+ACCESS_EXPIRES = timedelta(hours=1)
+REFRESH_EXPIRES = timedelta(days=30)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = ACCESS_EXPIRES
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = REFRESH_EXPIRES
 app.config["JWT_TOKEN_LOCATION"] = ["headers", "cookies"]
 app.config["JWT_COOKIE_SECURE"] = True
 app.config["JWT_COOKIE_HTTPONLY"] = True
@@ -59,6 +61,7 @@ STUDENT_ROLE = "student"
 
 # Use db.execute to execute queries
 db = SQL("./school.db")
+block_list = SQL("../token_block_list/block_list.db")
 
 @app.route("/")
 def index():
@@ -209,26 +212,45 @@ def login():
         return jsonify({"message": "User does not exist"}), 400
     
     user_info = user_info[0]
-    if bcrypt.check_password_hash(user_info["password_hash"], data["password"]):       
-        access_token = create_access_token(identity=data["username"])
+    if bcrypt.check_password_hash(user_info["password_hash"], data["password"]):
         refresh_token = create_refresh_token(identity=data["username"])
+        refresh_jti = get_jti(refresh_token)
+
+        additional_claims = {"refresh_jti": refresh_jti}
+        access_token = create_access_token(identity=data["username"], additional_claims=additional_claims)
         return jsonify(access_token=access_token, refresh_token=refresh_token, message="Login Successful"), 200
     else:
         return jsonify({"message": "Wrong username or password"}), 400
     
-@app.route("/refresh", methods=["POST"])
-def refresh():
-    data = request.get_json()
-
-    refresh_token = data.get("refresh_token")
-    if not refresh_token:
-        return jsonify({"message": "Refresh token is missing"}), 401
-
+@app.route("/logout", methods=["DELETE"])
+@jwt_required()
+def logout():
+    token = get_jwt()
+    jti = token["jti"]
+    ttype = token["type"]
+    refresh_jti = token.get("refresh_jti")
+    username = token["sub"]
+    now = datetime.now(timezone.utc)
     try:
-        new_access_token = create_access_token(identity=get_jwt_identity())
-        return jsonify(access_token=new_access_token), 200
+        block_list.execute("INSERT INTO block_list (username, ttype, created_on) VALUES (?, ?, ?)", jti, ttype, now)
+        if refresh_jti:
+            block_list.execute("INSERT INTO block_list (username, ttype, created_on) VALUES (?, ?, ?)", refresh_jti, "refresh", now)
     except Exception as e:
-        return jsonify({"message": "Failed to refresh access token", "error": str(e)}), 500
+        return jsonify(message="Something went wrong while revoking the token", error=str(e))
+    # Returns "Access token revoked" or "Refresh token revoked"
+    return jsonify(message=f"{ttype.capitalize()} token successfully revoked"), 200
+    
+@app.route("/refresh", methods=["POST"])
+@jwt_required(refresh=True)
+def refresh():
+    current_refresh_token = get_jwt()
+    identity = get_jwt_identity()
+    refresh_jti = current_refresh_token["jti"]
+
+    additional_claims = {"refresh_jti": refresh_jti}
+    access_token = create_access_token(identity=identity, additional_claims=additional_claims)
+
+    return jsonify(access_token=access_token), 200
 
 # ================================================================= # ================================================================= #
 """
