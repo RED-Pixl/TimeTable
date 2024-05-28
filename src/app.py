@@ -53,12 +53,9 @@ TEACHER_ROLE = "teacher"
 STUDENT_ROLE = "student"
 
 # Use db.execute to execute queries. MAKE THESE ENV VARIABLES
-db = SQL("./school.db")
+db = SQL("../database/school.db")
 block_list = SQL("../token_block_list/block_list.db")
-
-@app.route("/")
-def index():
-    return send_file('index.html')
+schools = SQL("../schools/schools.db")
 
 def main():
     app.run(port=80, )
@@ -255,9 +252,9 @@ Function for getting all known schools and information, open for everyone
 def get_schools():
     query = request.args.get("q", "")
     if not query:
-        return jsonify(db.execute("SELECT * FROM schools")), 200
+        return jsonify(schools.execute("SELECT * FROM schools")), 200
     else:
-        return jsonify(db.execute("SELECT * FROM schools WHERE school LIKE ? COLLATE NOCASE", f"%{query}%")), 200
+        return jsonify(schools.execute("SELECT * FROM schools WHERE school LIKE ? COLLATE NOCASE", f"%{query}%")), 200
 # Endpoints for students
 
 # ================================================================= # ================================================================= #
