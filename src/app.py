@@ -58,7 +58,7 @@ block_list = SQL("../token_block_list/block_list.db")
 schools = SQL("../schools/schools.db")
 
 def main():
-    app.run(port=80, )
+    app.run(port=80)
 
 """
 These Decorators have a hierarchical structure. 
@@ -210,7 +210,12 @@ def login():
 
         additional_claims = {"refresh_jti": refresh_jti}
         access_token = create_access_token(identity=data["username"], additional_claims=additional_claims)
-        return jsonify(access_token=access_token, refresh_token=refresh_token, message="Login Successful"), 200
+
+        tokens = {
+            "accessToken": access_token,
+            "refreshToken": refresh_token
+        }
+        return jsonify(tokens=tokens, message="Login Successful"), 200
     else:
         return jsonify({"message": "Wrong username or password"}), 400
     
